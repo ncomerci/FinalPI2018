@@ -19,3 +19,5 @@
 	#include "rand.h"
 
 #endif
+
+typedef struct DataCDT *DataADT;

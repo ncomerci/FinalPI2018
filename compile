@@ -2,7 +2,7 @@
 
 for file in $*
 do
-		gcc "$file".c getnum2.c rand.c -o $file".out" -Wall -pedantic -std=c99 -lm
+		gcc "$file".c getnum2.c rand.c -o $file".out" -Wall -pedantic -std=c99 -fsanitize=address -lm
 		echo "Compilado"
 done
 
