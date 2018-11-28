@@ -21,3 +21,7 @@
 #endif
 
 typedef struct DataCDT *DataADT;
+
+
+/*agrega en el header los movimientos por dias. Recibe información válida*/
+
