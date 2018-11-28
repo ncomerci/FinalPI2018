@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for file in $*
+do
+		gcc "$file".c getnum2.c rand.c -o $file".out" -Wall -pedantic -std=c99 -lm
+		echo "Compilado"
+done
+
+exit 0
