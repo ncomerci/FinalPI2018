@@ -64,7 +64,7 @@ return aux;
 
 dataADT add(dataADT head, char * s1){
 	head->last=AddR(head->last,s1);
-	head->cant++;
+	head->cant++; //NO EXISTE
 	if(head->first==NULL)
 		head->first=head->last;
 	return head;
@@ -80,6 +80,7 @@ char * getO(dataADT head,int * f){
 	
 return aux;
 }
+
 Pnode addCantR(Pnode n,char * s1,dataADT head){
 	if(n==NULL){
 		return n;
@@ -99,12 +100,14 @@ Pnode addCantR(Pnode n,char * s1,dataADT head){
 		}
 		return n;
 	}
-	n->total++;
+	if(strcmp(s1,n->oaci)==0)
+		n->total++;
 	return n;
 
 }
 
 dataADT addCant(dataADT head,char * s1){
+	Pnode aux=head->first;
 	head->first=addCantR(head->first,s1,head);
 	return head;
 }
