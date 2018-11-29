@@ -21,7 +21,7 @@ int main(int cantArgs, char *args[]){
 	FILE *airports;
 	char firstWord[10];
 
-	fscanf(file1, "%s%[^;]", firstWord);
+	fscanf(file1, "%[^;]", firstWord);
 
 	printf("%s\n", firstWord);
 
