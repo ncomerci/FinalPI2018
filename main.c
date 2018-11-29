@@ -5,7 +5,7 @@ int main(int cantArgs, char *args[]){
 
 	if(cantArgs != 3)
 	{
-		fprintf(stderr, "Two arguments expected.\n", );
+		fprintf(stderr, "%s\n", "Two arguments expected.");
 		exit(EXIT_FAILURE);
 	}	
 
