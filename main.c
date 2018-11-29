@@ -19,7 +19,7 @@ int main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-	char firstWord[5];
+	char firstWord[6];
 
 	fscanf(file1, "%[^;]", firstWord);
 
