@@ -66,7 +66,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType){
 
 /*q3*/
 
-void agregamov(char * ClasificVuelo, char * clasVuelo, DataADT data){
+void agregamov(const char * ClasificVuelo, const char * clasVuelo, DataADT data){
 	if(strcmp(ClasificVuelo, "Cabotaje") == 0){
 		if (strcmp(clasVuelo, "Regular") == 0)
 			data->movComp->Reg++; //movComp es un vector, faltaria el indice? (nico)
