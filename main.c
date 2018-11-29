@@ -21,7 +21,7 @@ int main(int cantArgs, char *args[]){
 	FILE *airports;
 	char firstWord[6];
 
-	fscanf(file1, "%[^;]", firstWord);
+	fscanf(file1+1, "%[^;]", firstWord);
 
 	if(strcmp(firstWord, "Fecha") == 0)
 	{
