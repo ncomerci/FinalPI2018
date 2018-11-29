@@ -36,4 +36,6 @@ typedef struct DataCDT
 
 }DataCDT;
 
-
+movCompo(){
+	
+}
