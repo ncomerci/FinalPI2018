@@ -36,6 +36,34 @@ typedef struct DataCDT
 
 }DataCDT;
 
-movCompo(){
+/*dice que dia de la semana es una fecha.
+el formato de la fecha es dd/mm/yyyy
+algoritmo de sakamoto*/
+static int dayWeek(const char *date){
+
+	int day = atoi(date);
+	int month = atoi(date+3);
+	int year = atoi(date+6);
+
+	int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+   	year -= month < 3;
+   
+   	return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
+}
+
+void MoveByDay(dataADT l, const char *date, const char *flightType){
+
+	int day = dayWeek(date);
+
+	if(strcmp(flightType, "Cabotaje") == 0)
+		l->movDays[day].cab++;
+	else
+		l->movDays[day].inter++;
+
+	l->movDays[day].total++;
+}
+
+int main(void)
+{
 	
 }
