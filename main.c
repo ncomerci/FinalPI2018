@@ -13,7 +13,7 @@ int main(int cantArgs, char *args[]){
 
 	if(errno != 0)
 	{
-		fprintf(stderr, " ERROR: %s %s\n", file1 == NULL ? args[1] : args[2], strerror(errno));
+		fprintf(stderr, "ERROR: %s %s\n", file1 == NULL ? args[1] : args[2], strerror(errno));
 		exit(errno);
 	}
 
