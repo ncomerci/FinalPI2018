@@ -19,11 +19,11 @@ int main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-	char *firstWord;
+	char firstWord[10];
 
 	fscanf(file1, "%s;", firstWord);
 
-	printf("%s\n", firstWord );
+	printf("%s\n", firstWord);
 
 
 	return 0;
