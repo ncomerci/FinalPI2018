@@ -1,3 +1,5 @@
+//sacar los include que no hayamos usado cuando terminemos el tp
+
 #ifndef _HEADER_H_
 
 	#define _HEADER_H_
@@ -13,6 +15,8 @@
 	#include <string.h>
 
 	#include <time.h>
+
+	#include <errno.h>
 
 	#include "getnum.h"
 
