@@ -63,6 +63,30 @@ void MoveByDay(dataADT l, const char *date, const char *flightType){
 	l->movDays[day].total++;
 }
 
+
+/*q3*/
+
+void agregamov(char * ClasificVuelo, char * clasVuelo, DataADT data){
+	if(!strcmp(ClasificVuelo, "Cabotaje")){
+		if (!strcmp(clasVuelo, "Regular"))
+			data->movComp->Reg++;
+		else if (!strcmp(clasVuelo, "No Regular"))
+			data->movComp->noReg++;
+		else
+			data->movComp->priv++;
+	}
+	else{
+		if (!strcmp(clasVuelo == 'Regular'))
+			data->movComp[1]->Reg++;
+		else if (!strcmp(clasVuelo, "No Regular"))
+			data->movComp[1]->noReg++;
+		else
+			data->movComp[1]->priv++;
+	}
+}
+
+
+
 int main(void)
 {
 	
