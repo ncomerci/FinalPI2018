@@ -1,6 +1,6 @@
 #include "header.h"
 
-enum DAYS {MON = 0, TUE, WED, THU, FRI, SAT, SUN};
+enum DAYS {SUN = 0, MON, TUE, WED, THU, FRI, SAT};
 
 typedef struct Tmove
 {
