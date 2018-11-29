@@ -17,6 +17,14 @@ int main(int cantArgs, char *args[]){
 		exit(EXIT_FAILURE);
 	}
 
+	FILE *moves;
+	FILE *airports;
+	char *firstWord;
+
+	fscanf(file1, "%s;", firstWord);
+
+	printf("%s\n", firstWord );
+
 
 	return 0;
 }
