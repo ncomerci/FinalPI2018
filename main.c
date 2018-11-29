@@ -19,12 +19,20 @@ int main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-	char firstWord[10];
+	char firstWord[5];
 
 	fscanf(file1, "%[^;]", firstWord);
 
-	printf("%s\n", firstWord);
-
+	if(strcmp(firstWord, "Fecha") == 0)
+	{
+		moves = file1;
+		airports = file2;
+	}
+	else
+	{
+		moves = file2;
+		airports = file1;
+	}
 
 	return 0;
 }
