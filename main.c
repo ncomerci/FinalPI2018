@@ -23,12 +23,6 @@ int main(int cantArgs, char *args[]){
 
 	fscanf(file1, "%[^;]", firstWord);
 
-	printf("%s\n", firstWord);
-
-	fscanf(file1, "%[^;]", firstWord);
-
-	printf("%s\n", firstWord);
-
 	if(strcmp(firstWord, "Fecha") == 0)
 	{
 		moves = file1;
