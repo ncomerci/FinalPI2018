@@ -4,7 +4,7 @@ int main(int cantArgs, char *args[]){
 
 	if(cantArgs != 3)
 	{
-		fprintf(stderr, "%s\n", "ERROR: Two arguments expected.");
+		fprintf(stderr, "ERROR: %s\n", "Two arguments expected.");
 		exit(EXIT_FAILURE);
 	}	
 
@@ -13,8 +13,8 @@ int main(int cantArgs, char *args[]){
 
 	if(errno != 0)
 	{
-		fprintf(stderr, " ERROR %s: %s\n", file1 == NULL ? args[1] : args[2], strerror(errno));
-		exit(EXIT_FAILURE);
+		fprintf(stderr, " ERROR: %s %s\n", file1 == NULL ? args[1] : args[2], strerror(errno));
+		exit(errno);
 	}
 
 	FILE *moves;
