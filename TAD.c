@@ -67,21 +67,21 @@ void MoveByDay(dataADT l, const char *date, const char *flightType){
 /*q3*/
 
 void agregamov(char * ClasificVuelo, char * clasVuelo, DataADT data){
-	if(!strcmp(ClasificVuelo, "Cabotaje")){
-		if (!strcmp(clasVuelo, "Regular"))
-			data->movComp->Reg++;
-		else if (!strcmp(clasVuelo, "No Regular"))
-			data->movComp->noReg++;
+	if(strcmp(ClasificVuelo, "Cabotaje") == 0){
+		if (strcmp(clasVuelo, "Regular") == 0)
+			data->movComp->Reg++; //movComp es un vector, faltaria el indice? (nico)
+		else if (strcmp(clasVuelo, "No Regular") == 0)
+			data->movComp->noReg++; //movComp es un vector, faltaria el indice? (nico)
 		else
 			data->movComp->priv++;
 	}
 	else{
-		if (!strcmp(clasVuelo == 'Regular'))
-			data->movComp[1]->Reg++;
-		else if (!strcmp(clasVuelo, "No Regular"))
-			data->movComp[1]->noReg++;
+		if (strcmp(clasVuelo == 'Regular') == 0)
+			data->movComp[1].Reg++;
+		else if (strcmp(clasVuelo, "No Regular") == 0)
+			data->movComp[1].noReg++;
 		else
-			data->movComp[1]->priv++;
+			data->movComp[1].priv++;
 	}
 }
 
