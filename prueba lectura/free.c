@@ -1,8 +1,8 @@
 
 void
-freeList( listADT list)
+freeList( dataADT data)
 {
-	Pnode curr=list->first;
+	Pnode curr=data->first;
 	Pnode aux;
 	Pmove aux2;
 	Pcomp aux3;
@@ -14,18 +14,18 @@ freeList( listADT list)
 	}
 	for (int i = 0; i < 7; i++)
 	{
-		aux2=list->movDays[i];
+		aux2=data->movDays[i];
 		free(aux);
 	}
 	for (i = 0; i < 2; i++)
 	{
-		aux3=list->movComp[i];
+		aux3=data->movComp[i];
 		free(aux);
 	}
 
 
-	free(list->movComp);
-	free(list->movDays);
-	free(list);
+	free(data->movComp);
+	free(data->movDays);
+	free(data);
 }
 
