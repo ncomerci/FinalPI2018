@@ -8,8 +8,8 @@ int main(int cantArgs, char *args[]){
 		exit(EXIT_FAILURE);
 	}	
 
-	FILE *file1 = fopen(args[1], "r+t");
-	FILE *file2 = fopen(args[2], "r+t");
+	FILE *file1 = fopen(args[1], "rt");
+	FILE *file2 = fopen(args[2], "rt");
 
 	if(errno != 0)
 	{
@@ -19,11 +19,8 @@ int main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-	char firstWord[6];
 
-	fscanf(file1, "%[^;]", firstWord);
-
-	if(strcmp(firstWord, "Fecha") == 0)
+	if(fgetc(file1) == 'F') //si la primer palabra es Fecha
 	{
 		moves = file1;
 		airports = file2;
