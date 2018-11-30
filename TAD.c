@@ -18,23 +18,26 @@ typedef struct Tcomp
 
 typedef struct Tnode
 {
-	char * oaci;
+	char oaci[5];
+	int total;
+	struct Tnode * next;
+	struct Tnode * prev;
 	char * denom;
-	int cantMoves;
-	struct Tnode * nextAlpha;
-	struct Tnode * nextMoves;
-
 }Tnode;
 
 typedef struct DataCDT
 {
-	struct Tnode * firstMove;
-	struct Tnode * firstAlpha;
-
+	struct Tnode * first;
+	struct Tnode * last;
+	struct Tnode * index;
+	int cant; 
 	struct Tmove movDays[7];
 	struct Tcomp movComp[2];
 
 }DataCDT;
+
+typedef Tnode * Pnode;
+typedef DataCDT * dataADT;
 
 /*dice que dia de la semana es una fecha.
 el formato de la fecha es dd/mm/yyyy
@@ -85,7 +88,68 @@ void agregamov(const char * ClasificVuelo, const char * clasVuelo, DataADT data)
 	}
 }
 
+/*Q1*/
+Pnode AddR(Pnode n,char * s1,,char * s2){
+	Pnode aux=calloc(1,sizeof(Tnode));
+	aux->next=NULL;
+	strcpy(aux->oaci,s1);
+	int c=strlen(s2);		
+	aux->denom=malloc(c+1);
+	strcpy(aux->denom,s2);
+	if(n!=NULL){
+	aux->prev=n;
+	n->next=aux;
+	}
+return aux;
+}
 
+dataADT add(dataADT head, char * s1,char * s2){
+	head->last=AddR(head->last,s1,s2);
+	head->cant++; 
+	if(head->first==NULL)
+		head->first=head->last;
+	return head;
+}
+
+char * getO(dataADT head,int * f){
+	char * aux=malloc(3);
+	if(head->index==NULL)
+		head->index=head->first;
+	strcpy(aux,head->index->oaci);
+	*f=head->index->total;
+	head->index=head->index->next;
+	
+return aux;
+}
+
+Pnode addCantR(Pnode n,char * s1,dataADT head){
+	if(n==NULL){
+		return n;
+	}
+	if(strcmp(s1,n->oaci)!=0){
+		n->next=addCantR(n->next,s1,head);
+		int c;
+		Pnode aux=n->next;
+		if((aux!=NULL && (c=aux->total-n->total)>0)||(c==0 && (c=strcmp(s1,n->oaci))<0)){
+			if(aux->next==NULL)
+				head->last=n;
+			aux->prev=n->prev;
+			n->next=aux->next;
+			n->prev=aux;
+			aux->next=n;
+			return aux;
+		}
+		return n;
+	}
+	n->total++;
+	return n;
+
+}
+
+dataADT addCant(dataADT head,char * s1){
+	head->first=addCantR(head->first,s1,head);
+	return head;
+}
 
 int main(void)
 {
