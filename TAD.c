@@ -195,7 +195,7 @@ void getAll(dataADT head){
 	}
 }
 
-/*void
+void
 skipLine(FILE *fp){
 
    int c;
@@ -224,4 +224,4 @@ void printMovesbyDay(DataADT l, FILE *dia_semana){
 int main(void)
 {
 	
-}*/
+}
