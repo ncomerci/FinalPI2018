@@ -22,8 +22,18 @@
 
 #endif
 
-typedef struct DataCDT *DataADT;
+typedef struct dataCDT *dataADT;
 
+dataADT new();
 
+void MoveByDay(dataADT l, const char *date, const char *flightType);
+
+void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
+
+dataADT addAirport(dataADT head, char * s1, char * s2);
+
+void addCant(dataADT head, char * s1);
+
+void getAll(dataADT head);
 /*agrega en el header los movimientos por dias. Recibe información válida*/
 

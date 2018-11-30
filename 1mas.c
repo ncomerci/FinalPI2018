@@ -1,19 +1,4 @@
-
-	#include <stdio.h>
-
-	#include <stdlib.h>
-
-	#include <ctype.h>
-
-	#include <math.h>
-
-	#include <string.h>
-
-	#include <time.h>
-
-	#include "getnum.h"
-
-#include <errno.h>
+#include "header.h"
 
 void
 skipLine(FILE *fp){
@@ -27,7 +12,6 @@ skipLine(FILE *fp){
 	while(c != '\n' && c != EOF);
 
 }
-
 int
 main(int cantArgs, char *args[])
 {
@@ -62,44 +46,57 @@ main(int cantArgs, char *args[])
 		moves = file2;
 		airports = file1;
 	}
+	dataADT head=new();
 
-	char oaci[5], denom[71], fecha[11], claseVuelo[39], clasifVuelo[14], origen[5], destino[5];
+	char oaci[5], denom[71], fecha[11], claseVuelo[14], clasifVuelo[14], origen[5], destino[5],s[5];
 
-	printf("\n================ AIRPORTS ================\n");
+	//printf("\n================ AIRPORTS ================\n");
 
 	skipLine(airports);
 
-	printf("\nOACI - DENOMINACIÓN\n\n");
-
+	//printf("\nOACI - DENOMINACIÓN\n\n");
+	int cant=0;
 	while(feof(airports) == 0)
 	{
 		fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;]", oaci, denom);
 		skipLine(airports);
 
-		if(strcmp(oaci, " ") != 0)
-			printf("%s - %s\n", oaci, denom);
+		if(strcmp(oaci, " ") != 0){
+			head=addAirport(head,oaci,denom);
+		}
+			//printf("%s - %s\n", oaci, denom); ACA CHAU				
 	}
 
-	printf("\n================ MOVES ================\n");
+	//printf("\n================ MOVES ================\n");
 
 	skipLine(moves);
 
-	printf("\nFECHA - CLASE - CLASIF - ORIGEN - DESTINO\n\n");
+	//printf("\nFECHA - CLASE - CLASIF - ORIGEN - DESTINO\n\n");
 
 	while(feof(moves) == 0)
 	{
-		fscanf(moves, "%[^;];%*[^;];%[^;];%[^;];%*[^;];%[^;];%[^;]", fecha, claseVuelo, clasifVuelo, origen, destino);
 		fscanf(moves, "%[^;];%*[^;];%13[^;]", fecha, claseVuelo);
 		
-		if(claseVuelo[0] == 'V')
+		if(strlen(claseVuelo) == 13)
 			fscanf(moves, "%*[^;];%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
 		else
 			fscanf(moves, ";%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
 
 		skipLine(moves);
 
-		printf("%s - %s - %s - %s - %s\n", fecha, claseVuelo, clasifVuelo, origen, destino);
-	}
+		//printf("%s - %s - %s - %s - %s\n", fecha, claseVuelo, clasifVuelo, origen, destino);
+		if(1!=sscanf(origen,"SA%[0-9]",s) && 1!=sscanf(origen,"AR-%[0-9]",s)){
+			addCant(head,origen);
+		}
 
+		if(1!=sscanf(destino,"SA%[0-9]",s) && 1!=sscanf(destino,"AR-%[0-9]",s)){
+			addCant(head,destino);
+		}
+		MoveByDay(head,fecha,clasifVuelo);
+		agregamov(clasifVuelo,claseVuelo,head);
+	}
+	getAll(head);
+	fclose(moves);
+	fclose(airports);
 	return 0;
 }
