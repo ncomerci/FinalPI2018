@@ -14,6 +14,21 @@ skipLine(FILE *fp){
 
 }
 
+void
+skipFields(FILE *fp, int cantFields){
+
+	int c;
+	
+	do
+	{
+		c = fgetc(fp);
+
+		if(c == ';')
+			cantFields--;
+	}
+	while(c != EOF && c != '\n' && cantFields > 0);
+}
+
 int
 main(int cantArgs, char *args[])
 {
@@ -34,8 +49,11 @@ main(int cantArgs, char *args[])
 
 	FILE *moves;
 	FILE *airports;
+	char firstWord[6];
 
-	if(fgetc(file1) == 'F') //si la primer palabra es Fecha
+	fscanf(file1, "%[^;]", firstWord);
+
+	if(strcmp(firstWord, "Fecha") == 0)
 	{
 		moves = file1;
 		airports = file2;
@@ -73,7 +91,7 @@ main(int cantArgs, char *args[])
 	{
 		fscanf(moves, "%[^;];%*[^;];%13[^;]", fecha, claseVuelo);
 		
-		if(claseVuelo[0] == 'V')
+		if(strlen(claseVuelo) == 13)
 			fscanf(moves, "%*[^;];%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
 		else
 			fscanf(moves, ";%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
