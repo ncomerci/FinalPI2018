@@ -55,14 +55,19 @@ static int dayWeek(const char *date){
 
 void MoveByDay(dataADT l, const char *date, const char *flightType){
 
-	int day = dayWeek(date);
+	int day;
 
-	if(strcmp(flightType, "Cabotaje") == 0)
-		l->movDays[day].cab++;
-	else
-		l->movDays[day].inter++;
+	if(flightType[0] != 'N') //que la clasif sea distinta de N/A
+	{
+		day = dayWeek(date);
+		
+		if(flightType[0] == 'C') //si es de cabotaje
+			l->movDays[day].cab++;
+		else
+			l->movDays[day].inter++;
 
-	l->movDays[day].total++;
+		l->movDays[day].total++;
+	}
 }
 
 
@@ -70,27 +75,30 @@ void MoveByDay(dataADT l, const char *date, const char *flightType){
 
 void agregamov(const char * ClasificVuelo, const char * clasVuelo, DataADT data){
 
-	if(strcmp(ClasificVuelo, "Cabotaje") == 0)
+	if(ClasificVuelo[0] != 'N') //chequea que la clasif no sea N/A
 	{
-		if (strcmp(clasVuelo, "Regular") == 0)
-			data->movComp[CAB].Reg++;
+		if(ClasificVuelo[0] == 'C') //si el vuelo es de Cabotaje
+		{
+			if (clasVuelo[0] == 'R') //si es Regular
+				data->movComp[CAB].Reg++;
 
-		else if (strcmp(clasVuelo, "No Regular") == 0)
-			data->movComp[CAB].noReg++;
+			else if (clasVuelo[0] == 'N') //si es No Regular
+				data->movComp[CAB].noReg++;
 
+			else //Vuelo Privado
+				data->movComp[CAB].priv++;
+		}
 		else
-			data->movComp[CAB].priv++;
-	}
-	else
-	{
-		if (strcmp(clasVuelo == "Regular") == 0)
-			data->movComp[INTER].Reg++;
+		{
+			if (clasVuelo[0] == 'R')
+				data->movComp[INTER].Reg++;
 
-		else if (strcmp(clasVuelo, "No Regular") == 0)
-			data->movComp[INTER].noReg++;
-		
-		else
-			data->movComp[INTER].priv++;
+			else if (clasVuelo[0] == 'N')
+				data->movComp[INTER].noReg++;
+			
+			else
+				data->movComp[INTER].priv++;
+		}
 	}
 }
 
