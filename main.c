@@ -20,8 +20,6 @@ int main(int cantArgs, char *args[]){
 	FILE *moves;
 	FILE *airports;
 
-	fscanf(file1, "%[^;]", firstWord);
-
 	if(fgetc(file1) == 'F') //si la primer palabra es Fecha
 	{
 		moves = file1;
