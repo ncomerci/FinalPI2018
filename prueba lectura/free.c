@@ -12,12 +12,12 @@ freeList( listADT list)
 		free(curr);
 		curr = aux;
 	}
-	for (int i = 0; i < 7; ++i)
+	for (int i = 0; i < 7; i++)
 	{
 		aux2=list->movDays[i];
 		free(aux);
 	}
-	for (int i = 0; i < 2; ++i)
+	for (i = 0; i < 2; i++)
 	{
 		aux3=list->movComp[i];
 		free(aux);
