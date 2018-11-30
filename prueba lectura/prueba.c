@@ -28,21 +28,6 @@ skipLine(FILE *fp){
 
 }
 
-void
-skipFields(FILE *fp, int cantFields){
-
-	int c;
-	
-	do
-	{
-		c = fgetc(fp);
-
-		if(c == ';')
-			cantFields--;
-	}
-	while(c != EOF && c != '\n' && cantFields > 0);
-}
-
 int
 main(int cantArgs, char *args[])
 {
@@ -104,6 +89,13 @@ main(int cantArgs, char *args[])
 	while(feof(moves) == 0)
 	{
 		fscanf(moves, "%[^;];%*[^;];%[^;];%[^;];%*[^;];%[^;];%[^;]", fecha, claseVuelo, clasifVuelo, origen, destino);
+		fscanf(moves, "%[^;];%*[^;];%13[^;]", fecha, claseVuelo);
+		
+		if(claseVuelo[0] == 'V')
+			fscanf(moves, "%*[^;];%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
+		else
+			fscanf(moves, ";%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
+
 		skipLine(moves);
 
 		printf("%s - %s - %s - %s - %s\n", fecha, claseVuelo, clasifVuelo, origen, destino);

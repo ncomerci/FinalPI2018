@@ -56,7 +56,7 @@ static int dayWeek(const char *date){
    	return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
 }
 
-void MoveByDay(dataADT l, const char *date, const char *flightType){
+void MoveByDay(DataADT l, const char *date, const char *flightType){
 
 	int day;
 
@@ -106,7 +106,7 @@ void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data)
 }
 
 /*Q1*/
-dataADT addAirport(dataADT head, char * s1, char * s2){
+DataADT addAirport(DataADT head, char * s1, char * s2){
 
 	Pnode aux = calloc(1, sizeof(Tnode));
 	strcpy(aux->oaci, s1);	
@@ -127,7 +127,7 @@ dataADT addAirport(dataADT head, char * s1, char * s2){
 	return head;
 }
 
-static Pnode addCantR(Pnode n, const char * s1, dataADT head)
+static Pnode addCantR(Pnode n, const char * s1, DataADT head)
 {
 	if(n == NULL){
 		return n;
@@ -160,7 +160,7 @@ static Pnode addCantR(Pnode n, const char * s1, dataADT head)
 	return n;
 }
 
-void addCant(dataADT head, char * s1)
+void addCant(DataADT head, char * s1)
 {
 	head->first = addCantR(head->first,s1,head);
 }
@@ -206,6 +206,18 @@ skipLine(FILE *fp){
    }
    while(c != '\n' && c != EOF);
 
+}
+
+void printMovesbyDay(DataADT l, FILE *dia_semana){
+
+	char *days[] = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
+
+	int i;
+
+	fprintf(dia_semana, "%s;%s;%s;%s\n", "Día", "Cabotaje", "Internacional", "Total");
+
+	for(i = SUN; i <= SAT ; i++)
+		fprintf(dia_semana, "%s;%d;%d;%d\n", days[i], l->movDays[i].cab, l->movDays[i].inter, l->movDays[i].total);
 }
 
 
