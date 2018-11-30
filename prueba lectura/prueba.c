@@ -1,4 +1,18 @@
-#include "todo.h"
+
+	#include <stdio.h>
+
+	#include <stdlib.h>
+
+	#include <ctype.h>
+
+	#include <math.h>
+
+	#include <string.h>
+
+	#include <time.h>
+
+	#include "getnum.h"
+
 #include <errno.h>
 
 void
@@ -64,7 +78,7 @@ main(int cantArgs, char *args[])
 		airports = file1;
 	}
 
-	char oaci[5], denom[71], fecha[11], claseVuelo[14], clasifVuelo[14], origen[5], destino[5];
+	char oaci[5], denom[71], fecha[11], claseVuelo[39], clasifVuelo[14], origen[5], destino[5];
 
 	printf("\n================ AIRPORTS ================\n");
 
@@ -89,13 +103,7 @@ main(int cantArgs, char *args[])
 
 	while(feof(moves) == 0)
 	{
-		fscanf(moves, "%[^;];%*[^;];%13[^;]", fecha, claseVuelo);
-		
-		if(strlen(claseVuelo) == 13)
-			fscanf(moves, "%*[^;];%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
-		else
-			fscanf(moves, ";%[^;];%*[^;];%[^;];%[^;]", clasifVuelo, origen, destino);
-
+		fscanf(moves, "%[^;];%*[^;];%[^;];%[^;];%*[^;];%[^;];%[^;]", fecha, claseVuelo, clasifVuelo, origen, destino);
 		skipLine(moves);
 
 		printf("%s - %s - %s - %s - %s\n", fecha, claseVuelo, clasifVuelo, origen, destino);

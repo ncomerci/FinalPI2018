@@ -26,7 +26,7 @@ typedef struct Tnode
 	char * denom;
 }Tnode;
 
-typedef struct DataCDT
+typedef struct dataCDT
 {
 	struct Tnode * first;
 	struct Tnode * last;
@@ -34,10 +34,13 @@ typedef struct DataCDT
 	struct Tmove movDays[7];
 	struct Tcomp movComp[2];
 
-}DataCDT;
+}dataCDT;
 
 typedef Tnode * Pnode;
-
+dataADT new(){
+	dataADT aux=calloc(1,sizeof(dataCDT));
+	return aux;
+}
 /*dice que dia de la semana es una fecha.
 el formato de la fecha es dd/mm/yyyy
 algoritmo de sakamoto*/
@@ -73,7 +76,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType){
 
 /*q3*/
 
-void agregamov(const char * ClasificVuelo, const char * clasVuelo, DataADT data){
+void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data){
 
 	if(ClasificVuelo[0] != 'N') //chequea que la clasif no sea N/A
 	{
@@ -136,7 +139,7 @@ static Pnode addCantR(Pnode n, const char * s1, dataADT head)
 		int c;		
 		Pnode aux = n->next;
 		
-		if((aux != NULL && (c = aux->total - n->total) > 0) || ( c == 0 && strcmp(s1, n->oaci) < 0))
+		if((aux!=NULL) && (((c = aux->total - n->total) > 0)||(c == 0 && strcmp(s1, n->oaci) < 0)))
 		{
 			if(aux->next == NULL)
 				head->last = n;
@@ -161,8 +164,38 @@ void addCant(dataADT head, char * s1)
 {
 	head->first = addCantR(head->first,s1,head);
 }
+void getR(Pnode n){
+	if(n->next==NULL){
+		if(n->total!=0){
+		printf("%s;%s;%d\n",n->oaci,n->denom,n->total);
+		}
+	}
+	else{
+		if(n->total!=0){
+			printf("%s;%s;%d\n",n->oaci,n->denom,n->total);
+		}
+		getR(n->next);
+	}
+}
 
-void
+void getAll(dataADT head){
+	printf("Oaci;Denominacion;Total\n");
+	getR(head->first);
+	printf("Dia;Cabotaje;Internacional;Total\n");
+	int i;
+	char * v1[7]={"SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"};
+	char * v2[2]={"Cabotaje","Internacional"};
+	for(i=SUN;i<=SAT;i++){
+		printf("%s;%d;%d;%d\n",v1[i],head->movDays[i].cab,head->movDays[i].inter,head->movDays[i].total);
+	}
+	printf("Tipo;REGULAR;NO REGULAR;PRIVADO\n");
+
+	for(i=0;i<2;i++){
+		printf("%s;%d;%d;%d\n",v2[i],head->movComp[i].Reg,head->movComp[i].noReg,head->movComp[i].priv);
+	}
+}
+
+/*void
 skipLine(FILE *fp){
 
    int c;
@@ -179,4 +212,4 @@ skipLine(FILE *fp){
 int main(void)
 {
 	
-}
+}*/
