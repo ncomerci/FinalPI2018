@@ -8,7 +8,7 @@ freeList( dataADT data)
 	Pcomp aux3;
 
 	while (curr != NULL) {
-		aux = curr->tail;
+		aux = curr->next;
 		free(curr);
 		curr = aux;
 	}
