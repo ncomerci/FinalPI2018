@@ -8,8 +8,8 @@ int main(int cantArgs, char *args[]){
 		exit(EXIT_FAILURE);
 	}	
 
-	FILE *file1 = fopen(args[1], "r+t");
-	FILE *file2 = fopen(args[2], "r+t");
+	FILE *file1 = fopen(args[1], "rt");
+	FILE *file2 = fopen(args[2], "rt");
 
 	if(errno != 0)
 	{
