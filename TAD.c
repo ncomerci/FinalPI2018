@@ -181,12 +181,10 @@ void printMovesbyDay(DataADT l, FILE *dia_semana){
 
 	int i;
 
-	fprintf(dia_semana, "%s;%s;%s;%s\n", );
+	fprintf(dia_semana, "%s;%s;%s;%s\n", "Día", "Cabotaje", "Internacional", "Total");
 
 	for(i = SUN; i <= SAT ; i++)
-	{
-		fprintf(dia_semana, "%s\n", );
-	}
+		fprintf(dia_semana, "%s;%d;%d;%d\n", days[i], l->movDays[i].cab, l->movDays[i].inter, l->movDays[i].total);
 }
 
 
