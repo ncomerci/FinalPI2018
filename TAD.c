@@ -76,7 +76,7 @@ void agregamov(char * ClasificVuelo, char * clasVuelo, DataADT data){
 			data->movComp->priv++;
 	}
 	else{
-		if (!strcmp(clasVuelo == 'Regular'))
+		if (!strcmp(clasVuelo == "Regular"))
 			data->movComp[1]->Reg++;
 		else if (!strcmp(clasVuelo, "No Regular"))
 			data->movComp[1]->noReg++;
