@@ -1,26 +1,28 @@
 #include "header.h"
 
+#define OACILEN 4 //maxima longitud del OACI
+
 enum DAYS {SUN = 0, MON, TUE, WED, THU, FRI, SAT};
 enum FLIGHTTYPE {CAB = 0, INTER};
 
 typedef struct Tmove
 {
-	int cab;
-	int inter;
-	int total;
+	size_t cab;
+	size_t inter;
+	size_t total;
 }Tmove;
 
 typedef struct Tcomp
 {
-	int Reg;
-	int noReg;
-	int priv;
+	size_t Reg;
+	size_t noReg;
+	size_t priv;
 }Tcomp;
 
 typedef struct Tnode
 {
-	char oaci[5];
-	int total;
+	char oaci[OACILEN+1];
+	size_t total;
 	struct Tnode * next;
 	struct Tnode * prev;
 	char * denom;
@@ -30,17 +32,13 @@ typedef struct dataCDT
 {
 	struct Tnode * first;
 	struct Tnode * last;
-	struct Tnode * index;
 	struct Tmove movDays[7];
 	struct Tcomp movComp[2];
 
 }dataCDT;
 
 typedef Tnode * Pnode;
-dataADT new(){
-	dataADT aux=calloc(1,sizeof(dataCDT));
-	return aux;
-}
+
 /*dice que dia de la semana es una fecha.
 el formato de la fecha es dd/mm/yyyy
 algoritmo de sakamoto*/
@@ -56,7 +54,12 @@ static int dayWeek(const char *date){
    	return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
 }
 
-void MoveByDay(DataADT l, const char *date, const char *flightType){
+dataADT new(){
+
+	return calloc(1,sizeof(dataCDT));
+}
+
+void MoveByDay(dataADT l, const char *date, const char *flightType){
 
 	int day;
 
@@ -106,11 +109,20 @@ void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data)
 }
 
 /*Q1*/
-DataADT addAirport(DataADT head, char * s1, char * s2){
+dataADT addAirport(dataADT head, const char * s1, const char * s2){
 
 	Pnode aux = calloc(1, sizeof(Tnode));
-	strcpy(aux->oaci, s1);	
+
+	if(errno != 0)
+		error(errno, strerror(errno));
+
+	strcpy(aux->oaci, s1);
+
 	aux->denom = malloc(strlen(s2) + 1);
+
+	if(errno != 0)
+		error(errno, strerror(errno));
+
 	strcpy(aux->denom, s2);
 
 	if(head->last != NULL)
@@ -127,7 +139,7 @@ DataADT addAirport(DataADT head, char * s1, char * s2){
 	return head;
 }
 
-static Pnode addCantR(Pnode n, const char * s1, DataADT head)
+static Pnode addCantR(Pnode n, const char * s1, dataADT head)
 {
 	if(n == NULL){
 		return n;
@@ -139,7 +151,7 @@ static Pnode addCantR(Pnode n, const char * s1, DataADT head)
 		int c;		
 		Pnode aux = n->next;
 		
-		if((aux!=NULL) && (((c = aux->total - n->total) > 0)||(c == 0 && strcmp(s1, n->oaci) < 0)))
+		if(aux != NULL && (((c = aux->total - n->total) > 0) || (c == 0 && strcmp(aux->oaci, n->oaci) < 0)))
 		{
 			if(aux->next == NULL)
 				head->last = n;
@@ -160,68 +172,151 @@ static Pnode addCantR(Pnode n, const char * s1, DataADT head)
 	return n;
 }
 
-void addCant(DataADT head, char * s1)
+void addCant(dataADT head, const char * s1)
 {
 	head->first = addCantR(head->first,s1,head);
 }
-void getR(Pnode n){
-	if(n->next==NULL){
-		if(n->total!=0){
-		printf("%s;%s;%d\n",n->oaci,n->denom,n->total);
-		}
-	}
-	else{
-		if(n->total!=0){
-			printf("%s;%s;%d\n",n->oaci,n->denom,n->total);
-		}
-		getR(n->next);
-	}
-}
 
-void getAll(dataADT head){
-	printf("Oaci;Denominacion;Total\n");
-	getR(head->first);
-	printf("Dia;Cabotaje;Internacional;Total\n");
-	int i;
-	char * v1[7]={"SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"};
-	char * v2[2]={"Cabotaje","Internacional"};
-	for(i=SUN;i<=SAT;i++){
-		printf("%s;%d;%d;%d\n",v1[i],head->movDays[i].cab,head->movDays[i].inter,head->movDays[i].total);
-	}
-	printf("Tipo;REGULAR;NO REGULAR;PRIVADO\n");
+//en string recibe orgien o destino
+void addMove(const char *string, dataADT info){
 
-	for(i=0;i<2;i++){
-		printf("%s;%d;%d;%d\n",v2[i],head->movComp[i].Reg,head->movComp[i].noReg,head->movComp[i].priv);
-	}
-}
+	char s[OACILEN+1];
 
-void
-skipLine(FILE *fp){
-
-   int c;
-
-   do
-   {
-      c = fgetc(fp);
-   }
-   while(c != '\n' && c != EOF);
+	if(sscanf(string, "SA%2[0-9]",s) != 1 && sscanf(string, "AR-%[0-9]",s) != 1)
+		addCant(info, string);
 
 }
 
-void printMovesbyDay(DataADT l, FILE *dia_semana){
+//solo recibe origen o destino
+void getOriDest(FILE *moves, dataADT info, char *origen){
+
+	int i, c, flag = 0;
+
+	for(i = 0 ; i < OACILEN && !flag ; i++)
+	{
+		origen[i] = fgetc(moves);
+
+		if(origen[i] == ';')
+			flag = 1;
+	}
+
+	origen[i] = '\0';
+
+	if(!flag && (c = fgetc(moves)) == ';')
+		addMove(origen, info);
+	
+	if(!flag && c != ';')
+		fscanf(moves, "%*[^;];");
+	else
+		flag = 0;
+
+}
+
+void getData(dataADT info, FILE *airports, FILE *moves){
+
+	char oaci[OACILEN+1], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], origen[OACILEN+1], destino[OACILEN+1];
+
+	fscanf(airports, "%*[^\n]\n");
+
+	while(feof(airports) == 0)
+	{
+		fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
+
+		if(strcmp(oaci, " ") != 0)
+			info = addAirport(info, oaci, denom);
+	}
+
+	fscanf(moves, "%*[^\n]\n");
+
+	while(feof(moves) == 0)
+	{
+		fscanf(moves, "%10s;%*[^;];%1s%*[^;];%1s%*[^;];%*[^;];", fecha, claseVuelo, clasifVuelo);
+
+		getOriDest(moves, info, origen);
+		getOriDest(moves, info, destino);
+		fscanf(moves, "%*[^\n]\n");
+
+		MoveByDay(info, fecha, clasifVuelo);
+		agregamov(clasifVuelo, claseVuelo, info);
+	}
+}
+
+static void printMBARec(Pnode node, FILE *fp){
+
+	if(node != NULL && node->total != 0)
+	{
+		fprintf(fp, "%s;%s;%ld\n", node->oaci, node->denom, node->total);
+
+		printMBARec(node->next, fp);
+	}
+}
+
+char * printMovesbyAirports(dataADT l){
+
+	char *filedir = "./movimientos_aeropuerto.csv";
+
+	FILE *fp = fopen(filedir, "wt");
+
+	fprintf(fp, "%s;%s;%s\n", "OACI", "Denominación", "Movimientos");
+
+	printMBARec(l->first, fp);
+
+	fclose(fp);
+
+	return filedir;
+}
+
+char * printMovesbyDay(dataADT l){
+
+	char *filedir = "./dia_semana.csv";
+
+	FILE *fp = fopen(filedir, "wt");
 
 	char *days[] = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
 
 	int i;
 
-	fprintf(dia_semana, "%s;%s;%s;%s\n", "Día", "Cabotaje", "Internacional", "Total");
+	fprintf(fp, "%s;%s;%s;%s\n", "Día", "Cabotaje", "Internacional", "Total");
 
 	for(i = SUN; i <= SAT ; i++)
-		fprintf(dia_semana, "%s;%d;%d;%d\n", days[i], l->movDays[i].cab, l->movDays[i].inter, l->movDays[i].total);
+		fprintf(fp, "%s;%ld;%ld;%ld\n", days[i], l->movDays[i].cab, l->movDays[i].inter, l->movDays[i].total);
+
+	fclose(fp);
+
+	return filedir;
 }
 
+char * printCompMoves(dataADT l){
 
-int main(void)
-{
-	
+	char *filedir = "./composicion.csv";
+
+	FILE *fp = fopen(filedir, "wt");
+
+	int i;
+
+	char *clasif[] = {"Cabotaje", "Internacional"};
+
+	fprintf(fp, "%s;%s;%s;%s\n", "Clasificación de Vuelo", "Regular", "No Regular", "Vuelo Privado");
+
+	for(i = CAB; i <= INTER ; i++)
+		fprintf(fp, "%s;%ld;%ld;%ld\n", clasif[i], l->movComp[i].Reg, l->movComp[i].noReg, l->movComp[i].priv);
+
+	fclose(fp);
+
+	return filedir;
+}
+
+void freeList(dataADT data){
+
+	Pnode curr=data->first;
+	Pnode aux;
+
+	while (curr != NULL) {
+		aux = curr->next;
+		free(curr->denom);
+		free(curr);
+		curr = aux;
+	}
+
+	free(data);
 }

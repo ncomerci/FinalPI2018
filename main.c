@@ -1,26 +1,45 @@
 #include "header.h"
 
-int main(int cantArgs, char *args[]){
+#define OPTIONS 3
+
+typedef struct itemMenu {
+
+	char *messege;
+	char * (*fn) (dataADT l);
+
+}itemMenu;
+
+typedef struct tMenu {
+
+	int totalOptions;
+	itemMenu *items;
+	
+}tMenu;
+
+static itemMenu items[OPTIONS] = {{"Movimientos por aeropuerto", printMovesbyAirports}, {"Movimientos por día de la semana", printMovesbyDay}, {"Composición de Movimientos", printCompMoves}};
+static tMenu ppalMenu = {OPTIONS, items};
+
+void Menu(dataADT info, FILE *moves, FILE *airports);
+
+int
+main(int cantArgs, char *args[]){
 
 	if(cantArgs != 3)
-	{
-		fprintf(stderr, "ERROR: %s\n", "Two arguments expected.");
-		exit(EXIT_FAILURE);
-	}	
+		error(EXIT_FAILURE, "Two arguments expected");
 
 	FILE *file1 = fopen(args[1], "rt");
 	FILE *file2 = fopen(args[2], "rt");
 
 	if(errno != 0)
-	{
-		fprintf(stderr, "ERROR: %s %s\n", file1 == NULL ? args[1] : args[2], strerror(errno));
-		exit(errno);
-	}
+		error(errno, strerror(errno));
 
 	FILE *moves;
 	FILE *airports;
+	char firstWord[6];
 
-	if(fgetc(file1) == 'F') //si la primer palabra es Fecha
+	fscanf(file1, "%[^;]", firstWord);
+
+	if(strcmp(firstWord, "Fecha") == 0)
 	{
 		moves = file1;
 		airports = file2;
@@ -31,5 +50,58 @@ int main(int cantArgs, char *args[]){
 		airports = file1;
 	}
 
+	printf("\n=======================================================\n\tTRABAJO FINAL PROG. IMP. DICIEMBRE 2018\n=======================================================\n");
+	printf("\nINTEGRANTES:\n\n*Lucía Torrusio\t\tLegajo: 59489\n*Tamara Puig\t\tLegajo: 59820\n*Nicolás Comerci\tLegajo: 59520\n");
+
+	dataADT info = new();
+
+	Menu(info, moves, airports);
+	
+	freeList(info);
+	fclose(moves);
+	fclose(airports);
+
 	return 0;
+}
+
+void Menu(dataADT info, FILE *moves, FILE *airports){
+
+	int i, opt, resp, load = 0;
+
+	do
+	{
+		do
+		{
+			printf("\nESCOJA UNA OPCIÓN:\n\n");
+
+			for(i=0 ; i < ppalMenu.totalOptions ; i++)
+				printf("%d) %s\n", i+1, ppalMenu.items[i].messege);
+
+			printf("%d) Realizar todo lo anterior\n%d) Salir\n", i+1, i+2);
+
+			opt = getint("\n");
+		}
+		while(opt < 1 || opt > ppalMenu.totalOptions+2);
+
+		if(opt == ppalMenu.totalOptions+2)			
+			return;
+
+		if( !load )
+		{
+			getData(info, airports, moves);
+			load = 1;
+		}
+
+		if(opt == ppalMenu.totalOptions+1)
+		{
+			for(i = 0 ; i < ppalMenu.totalOptions ; i++)
+				printf("%s created.\n", ppalMenu.items[i].fn (info));
+		}
+		else
+			printf("%s created.\n", ppalMenu.items[opt-1].fn (info));
+
+		resp = yesNo("Desea realizar otra acción? (S/N)\n");
+
+	}
+	while(resp);
 }
