@@ -65,7 +65,7 @@ main(int cantArgs, char *args[]){
 
 void Menu(dataADT info, FILE *moves, FILE *airports){
 
-	int i, opt, resp, load = 0;
+	int i, opt, resp, load = 0,flag=0;
 
 	do
 	{
@@ -87,8 +87,17 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 			freeList(info);
 			return;
 		}
-
-		if( !load )
+		if(opt ==1 && load && !flag){
+			flag=1;
+			getData(info, airports, moves,opt-1);
+		}
+		else if(opt == 1 && !load && !flag){
+			getData(info, airports, moves,opt);
+			load = 1;	
+			flag=1;
+		}
+		
+		if(!load && opt!=1 && opt!=4)
 		{
 			getData(info, airports, moves,opt);
 			load = 1;
@@ -96,6 +105,8 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 
 		if(opt == ppalMenu.totalOptions+1)
 		{
+			load=1;
+			flag=1;
 			for(i = 0 ; i < ppalMenu.totalOptions ; i++)
 				printf("%s created.\n", ppalMenu.items[i].fn (info));
 		}

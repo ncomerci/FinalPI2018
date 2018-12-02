@@ -187,7 +187,7 @@ void addMove(const char *string, dataADT info){
 void getData(dataADT info, FILE *airports, FILE *moves,int option){
 
 	char oaci[5], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], origen[8], destino[8];
-	if(option==1){
+	if(option<2){
 		fscanf(airports, "%*[^\n]\n");
 
 		while(feof(airports) == 0)
@@ -198,18 +198,19 @@ void getData(dataADT info, FILE *airports, FILE *moves,int option){
 				info = addAirport(info, oaci, denom);
 		}
 	}
+	if(option<3 && option>0){ 
+		fscanf(moves, "%*[^\n]\n");
 
-	fscanf(moves, "%*[^\n]\n");
+		while(feof(moves) == 0)
+		{
+			fscanf(moves, "%[^;];%*[^;];%1s%*[^;];%1s%*[^;];%*[^;];%[^;];%[^;];%*[^\n]\n", fecha, claseVuelo, clasifVuelo, origen, destino);
 
-	while(feof(moves) == 0)
-	{
-		fscanf(moves, "%[^;];%*[^;];%1s%*[^;];%1s%*[^;];%*[^;];%[^;];%[^;];%*[^\n]\n", fecha, claseVuelo, clasifVuelo, origen, destino);
+			addMove(origen, info);
+			addMove(destino, info);
 
-		addMove(origen, info);
-		addMove(destino, info);
-
-		MoveByDay(info, fecha, clasifVuelo);
-		agregamov(clasifVuelo, claseVuelo, info);
+			MoveByDay(info, fecha, clasifVuelo);
+			agregamov(clasifVuelo, claseVuelo, info);
+		}
 	}
 }
 
