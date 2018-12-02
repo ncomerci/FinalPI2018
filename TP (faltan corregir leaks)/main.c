@@ -90,7 +90,7 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 
 		if( !load )
 		{
-			getData(info, airports, moves);
+			getData(info, airports, moves,opt);
 			load = 1;
 		}
 

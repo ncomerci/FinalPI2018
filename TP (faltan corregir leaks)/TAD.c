@@ -184,18 +184,19 @@ void addMove(const char *string, dataADT info){
 		addCant(info, string);
 }
 
-void getData(dataADT info, FILE *airports, FILE *moves){
+void getData(dataADT info, FILE *airports, FILE *moves,int option){
 
 	char oaci[5], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], origen[8], destino[8];
+	if(option==1){
+		fscanf(airports, "%*[^\n]\n");
 
-	fscanf(airports, "%*[^\n]\n");
+		while(feof(airports) == 0)
+		{
+			fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
 
-	while(feof(airports) == 0)
-	{
-		fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
-
-		if(strcmp(oaci, " ") != 0)
-			info = addAirport(info, oaci, denom);
+			if(strcmp(oaci, " ") != 0)
+				info = addAirport(info, oaci, denom);
+		}
 	}
 
 	fscanf(moves, "%*[^\n]\n");
