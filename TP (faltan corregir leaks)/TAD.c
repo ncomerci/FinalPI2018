@@ -1,7 +1,5 @@
 #include "header.h"
 
-#define OACILEN 4 //maxima longitud del OACI
-
 enum DAYS {SUN = 0, MON, TUE, WED, THU, FRI, SAT};
 enum FLIGHTTYPE {CAB = 0, INTER};
 
@@ -21,7 +19,7 @@ typedef struct Tcomp
 
 typedef struct Tnode
 {
-	char oaci[OACILEN+1];
+	char oaci[5];
 	size_t total;
 	struct Tnode * next;
 	struct Tnode * prev;
@@ -180,64 +178,39 @@ void addCant(dataADT head, const char * s1)
 //en string recibe orgien o destino
 void addMove(const char *string, dataADT info){
 
-	char s[OACILEN+1];
+	char s[5];
 
-	if(sscanf(string, "SA%2[0-9]",s) != 1 && sscanf(string, "AR-%[0-9]",s) != 1)
+	if(sscanf(string,"SA%[0-9]",s) != 1 && sscanf(string,"AR-%[0-9]", s) != 1)
 		addCant(info, string);
-
 }
 
-//solo recibe origen o destino
-void getOriDest(FILE *moves, dataADT info, char *origen){
+void getData(dataADT info, FILE *airports, FILE *moves,int option){
 
-	int i, c, flag = 0;
+	char oaci[5], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], origen[8], destino[8];
+	if(option<2){
+		fscanf(airports, "%*[^\n]\n");
 
-	for(i = 0 ; i < OACILEN && !flag ; i++)
-	{
-		origen[i] = fgetc(moves);
+		while(feof(airports) == 0)
+		{
+			fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
 
-		if(origen[i] == ';')
-			flag = 1;
+			if(strcmp(oaci, " ") != 0)
+				info = addAirport(info, oaci, denom);
+		}
 	}
-
-	origen[i] = '\0';
-
-	if(!flag && (c = fgetc(moves)) == ';')
-		addMove(origen, info);
-	
-	if(!flag && c != ';')
-		fscanf(moves, "%*[^;];");
-	else
-		flag = 0;
-
-}
-
-void getData(dataADT info, FILE *airports, FILE *moves){
-
-	char oaci[OACILEN+1], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], origen[OACILEN+1], destino[OACILEN+1];
-
-	fscanf(airports, "%*[^\n]\n");
-
-	while(feof(airports) == 0)
-	{
-		fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
-
-		if(strcmp(oaci, " ") != 0)
-			info = addAirport(info, oaci, denom);
-	}
-
-	fscanf(moves, "%*[^\n]\n");
-
-	while(feof(moves) == 0)
-	{
-		fscanf(moves, "%10s;%*[^;];%1s%*[^;];%1s%*[^;];%*[^;];", fecha, claseVuelo, clasifVuelo);
-
-		getOriDest(moves, info, origen);
-		getOriDest(moves, info, destino);
+	if(option<3 && option>0){ 
 		fscanf(moves, "%*[^\n]\n");
 
-		MoveByDay(info, fecha, clasifVuelo);
-		agregamov(clasifVuelo, claseVuelo, info);
+		while(feof(moves) == 0)
+		{
+			fscanf(moves, "%[^;];%*[^;];%1s%*[^;];%1s%*[^;];%*[^;];%[^;];%[^;];%*[^\n]\n", fecha, claseVuelo, clasifVuelo, origen, destino);
+
+			addMove(origen, info);
+			addMove(destino, info);
+
+			MoveByDay(info, fecha, clasifVuelo);
+			agregamov(clasifVuelo, claseVuelo, info);
+		}
 	}
 }
 
@@ -313,7 +286,6 @@ void freeList(dataADT data){
 
 	while (curr != NULL) {
 		aux = curr->next;
-		free(curr->denom);
 		free(curr);
 		curr = aux;
 	}

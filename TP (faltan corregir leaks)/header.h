@@ -40,9 +40,7 @@
 
 	void addMove(const char *string, dataADT info);
 
-	void getData(dataADT info, FILE *airports, FILE *moves);
-
-	void getOriDest(FILE *moves, dataADT info, char *origen);
+	void getData(dataADT info, FILE *airports, FILE *moves,int option);
 
 	char * printMovesbyDay(dataADT l);
 
