@@ -91,15 +91,15 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 			flag=1;
 			getData(info, airports, moves,opt-1);
 		}
-		else if(opt == 1 && !load && !flag){
+		else if(opt == 1 && !load){
 			getData(info, airports, moves,opt);
 			load = 1;	
 			flag=1;
 		}
 		
-		if(!load && opt!=1 && opt!=4)
+		if(!load && opt!=1)
 		{
-			getData(info, airports, moves,opt);
+			getData(info, airports, moves,2);
 			load = 1;
 		}
 
