@@ -149,7 +149,7 @@ static Pnode addCantR(Pnode n, const char * s1, dataADT head)
 		int c;		
 		Pnode aux = n->next;
 		
-		if(aux != NULL && (((c = aux->total - n->total) > 0) || (c == 0 && strcmp(s1, n->oaci) < 0)))
+		if(aux != NULL && (((c = aux->total - n->total) > 0) || (c == 0 && strcmp(aux->oaci, n->oaci) < 0)))
 		{
 			if(aux->next == NULL)
 				head->last = n;
