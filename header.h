@@ -34,7 +34,7 @@
 
 	void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
 
-	dataADT addAirport(dataADT head, const char * s1, const char * s2);
+	void addAirport(dataADT head, const char * s1, const char * s2);
 
 	void addCant(dataADT head, const char * s1);
 

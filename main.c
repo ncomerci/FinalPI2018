@@ -98,10 +98,10 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 				printf("%s created.\n", ppalMenu.items[i].fn (info));
 		}
 		else
+		{
 			printf("%s created.\n", ppalMenu.items[opt-1].fn (info));
-
-		resp = yesNo("Desea realizar otra acción? (S/N)\n");
-
+			resp = yesNo("Desea realizar otra acción? (S/N)\n");
+		}
 	}
-	while(resp);
+	while(opt != ppalMenu.totalOptions+1 && resp);
 }

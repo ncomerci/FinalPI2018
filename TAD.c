@@ -109,7 +109,7 @@ void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data)
 }
 
 /*Q1*/
-dataADT addAirport(dataADT head, const char * s1, const char * s2){
+void addAirport(dataADT head, const char * s1, const char * s2){
 
 	Pnode aux = calloc(1, sizeof(Tnode));
 
@@ -136,7 +136,6 @@ dataADT addAirport(dataADT head, const char * s1, const char * s2){
 	if(head->first == NULL)
 		head->first=head->last;
 
-	return head;
 }
 
 static Pnode addCantR(Pnode n, const char * s1, dataADT head)
@@ -204,11 +203,9 @@ void getOriDest(FILE *moves, dataADT info, char *origen){
 
 	if(!flag && (c = fgetc(moves)) == ';')
 		addMove(origen, info);
-	
-	if(!flag && c != ';')
+
+	else if(!flag && c != ';')
 		fscanf(moves, "%*[^;];");
-	else
-		flag = 0;
 
 }
 
@@ -223,7 +220,7 @@ void getData(dataADT info, FILE *airports, FILE *moves){
 		fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
 
 		if(strcmp(oaci, " ") != 0)
-			info = addAirport(info, oaci, denom);
+			addAirport(info, oaci, denom);
 	}
 
 	fscanf(moves, "%*[^\n]\n");
