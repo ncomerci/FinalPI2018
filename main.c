@@ -88,6 +88,7 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 
 		if( !load )
 		{
+			printf("Cargando...\n");
 			getData(info, airports, moves);
 			load = 1;
 		}
@@ -95,7 +96,7 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 		if(opt == ppalMenu.totalOptions+1)
 		{
 			for(i = 0 ; i < ppalMenu.totalOptions ; i++)
-				printf("%s created.\n", ppalMenu.items[i].fn (info));
+				printf("%s creado.\n", ppalMenu.items[i].fn (info));
 		}
 		else
 		{
