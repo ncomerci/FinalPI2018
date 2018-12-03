@@ -61,11 +61,9 @@ dataADT new(){
 
 void MoveByDay(dataADT l, const char *date, const char *flightType){
 
-	int day;
-
 	if(flightType[0] != 'N') //que la clasif sea distinta de N/A
 	{
-		day = dayWeek(date);
+		int day = dayWeek(date);
 		
 		if(flightType[0] == 'C') //si es de cabotaje
 			l->movDays[day].cab++;
