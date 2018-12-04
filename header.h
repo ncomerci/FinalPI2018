@@ -24,7 +24,7 @@
 
 	__attribute__((used)) static void error(int errorCode, const char *s) {
 
-		fprintf(stderr, "\nERROR: %s.\n", s);
+		fprintf(stderr, "\nERROR: %s.\n\n", s);
 		exit(errorCode);
 	}
 
