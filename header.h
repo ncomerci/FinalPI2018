@@ -22,7 +22,7 @@
 
 	typedef struct dataCDT *dataADT;
 
-	__attribute__((used)) static void error(int errorCode, const char * s) {
+	__attribute__((used)) static void error(int errorCode, const char *s) {
 
 		fprintf(stderr, "\nERROR: %s.\n", s);
 		exit(errorCode);
