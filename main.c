@@ -19,6 +19,7 @@ typedef struct tMenu {
 static itemMenu items[OPTIONS] = {{"Movimientos por aeropuerto", printMovesbyAirports}, {"Movimientos por día de la semana", printMovesbyDay}, {"Composición de Movimientos", printCompMoves}};
 static tMenu ppalMenu = {OPTIONS, items};
 
+int checkFiles(FILE *moves, FILE *airports);
 void Menu(dataADT info, FILE *moves, FILE *airports);
 
 int
@@ -35,19 +36,22 @@ main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-	char firstWord[6];
 
-	fscanf(file1, "%[^;]", firstWord);
-
-	if(strcmp(firstWord, "Fecha") == 0)
+	if(checkFiles(file1, file2))
 	{
 		moves = file1;
 		airports = file2;
 	}
-	else
+	else if(checkFiles(file2, file1))
 	{
 		moves = file2;
 		airports = file1;
+	}
+	else
+	{
+		fclose(file1);
+		fclose(file2);
+		error(EXIT_FAILURE, "Wrong file");
 	}
 
 	printf("\n=======================================================\n\tTRABAJO FINAL PROG. IMP. DICIEMBRE 2018\n=======================================================\n");
@@ -60,6 +64,23 @@ main(int cantArgs, char *args[]){
 	freeList(info);
 	fclose(moves);
 	fclose(airports);
+
+	return 0;
+}
+
+int checkFiles(FILE *moves, FILE *airports){
+
+	char date[6], class[15], classif[20], origin[12], destiny[13], oaci[5], denom[13];
+	int f1, f2;
+
+	f1 = fscanf(moves, "%5[^;];%*[^;];%14[^;];%19[^;];%*[^;];%11[^;];%12[^;]", date, class, classif, origin, destiny);
+	f2 = fscanf(airports, "%*[^;];%4[^;];%*[^;];%*[^;];%12[^;]", oaci, denom);
+	
+	fseek(moves, 0, SEEK_SET);
+	fseek(airports, 0, SEEK_SET);
+
+	if(f1 == 5 && f2 == 2)
+		return 1;
 
 	return 0;
 }
