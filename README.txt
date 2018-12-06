@@ -9,7 +9,7 @@ Generar ejecutable:
 
 1- Una vez posicionado en el directorio en el que se encuentran los archivos  fuente y de encabezado entregados utilizar el siguiente comando para generar el ejecutable "censo":
 
-   $> gcc main.c getnum.c TAD.c -o censo –pedantic –std=c99 -Wall -fsanitize=address
+   $> gcc main.c getnum.c TAD.c -o censo -pedantic -std=c99 -Wall -fsanitize=address
 
 Modo de uso:
 
@@ -22,9 +22,9 @@ Modo de uso:
 
 	1) Movimientos por aeropuerto: esta opción crea un archivo "movimientos_aeropuerto.csv" donde cada línea contiene separados por ; el código OACI, la denominación y la cantidad de movimientos del aeropuerto.
 
-	2) Movimientos por día de la semana: esta opción crea un archivo "dia_semana.csv" donde cada línea contiene separados por ‘;’ el día de la semana, la cantidad de movimientos de cabotaje para ese día, la cantidad de movimientos internacionales para ese día y la suma de ambos movimientos.
+	2) Movimientos por día de la semana: esta opción crea un archivo "dia_semana.csv" donde cada línea contiene separados por ";" el día de la semana, la cantidad de movimientos de cabotaje para ese día, la cantidad de movimientos internacionales para ese día y la suma de ambos movimientos.
 
-	3) Composición de Movimientos: esta opción crea un archivo "composicion.csv" donde cada línea de la salida contenga separados por ‘;’ el total de movimientos por Clasificación de Vuelo y por Clase de Vuelo.
+	3) Composición de Movimientos: esta opción crea un archivo "composicion.csv" donde cada línea de la salida contenga separados por ";" el total de movimientos por Clasificación de Vuelo y por Clase de Vuelo.
 
 	4) Realizar todo lo anterior: como lo indica el nombre, esta opción genera tres archivos "movimientos_aeropuerto.csv", "dia_semana.csv" y "composicion.csv" con lo anterior dicho.
 
