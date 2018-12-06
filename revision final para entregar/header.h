@@ -18,8 +18,6 @@
 
 	#include <errno.h>
 
-	#include "getnum.h"
-
 	typedef struct dataCDT *dataADT;
 
 	__attribute__((used)) static void error(int errorCode, const char *s) {
@@ -29,9 +27,10 @@
 	}
 
 	dataADT new(void);
-
+//Recibe la lista del censo de los aeropuertos, la fecha del movimiento y el tipo de vuelo realizado en esa fecha,y agrega un movimiento al correspondiente tipo de vuelo a la lista dada.
 	void MoveByDay(dataADT l, const char *date, const char *flightType);
 
+//Recibe la clasificacion del vuelo, la clase de vuelo, y el header de la lista del censo de los aeropuertos. Agrega 
 	void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
   
 	void addAirport(dataADT head, const char * s1, const char * s2);
