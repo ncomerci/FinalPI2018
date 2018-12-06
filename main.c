@@ -28,7 +28,7 @@ main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-
+//se fija cuál es el archivo de movimientos y cual el de aeropuertos.
 	if(checkFiles(file1, file2))
 	{
 		moves = file1;
