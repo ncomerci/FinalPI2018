@@ -109,21 +109,21 @@ void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data)
 }
 
 /*Q1*/
-void addAirport(dataADT head, const char * s1, const char * s2){
+void addAirport(dataADT head, const char * oaci, const char * denom){
 
 	Pnode aux = calloc(1, sizeof(Tnode));
 
 	if(errno != 0)
 		error(errno, strerror(errno));
 
-	strcpy(aux->oaci, s1);
+	strcpy(aux->oaci, oaci);
 
-	aux->denom = malloc(strlen(s2) + 1);
+	aux->denom = malloc(strlen(denom) + 1);
 
 	if(errno != 0)
 		error(errno, strerror(errno));
 
-	strcpy(aux->denom, s2);
+	strcpy(aux->denom, demon);
 
 	if(head->first != NULL)
 	{
