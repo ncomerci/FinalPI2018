@@ -134,15 +134,15 @@ void addAirport(dataADT head, const char * oaci, const char * denom){
 	head->first = aux;
 }
 
-static Pnode addCantR(Pnode n, const char * s1)
+static Pnode addCantR(Pnode n, const char * oaci)
 {
 	if(n == NULL){
 		return n;
 	}
 
-	if(strcmp(s1, n->oaci) != 0)
+	if(strcmp(oaci, n->oaci) != 0)
 	{	
-		n->next = addCantR(n->next, s1);
+		n->next = addCantR(n->next, oaci);
 		int c;		
 		Pnode aux = n->next;
 		
@@ -165,9 +165,9 @@ static Pnode addCantR(Pnode n, const char * s1)
 	return n;
 }
 
-void addCant(dataADT head, const char * s1)
+void addCant(dataADT head, const char * oaci)
 {
-	head->first = addCantR(head->first, s1);
+	head->first = addCantR(head->first, oaci);
 }
 
 //en string recibe orgien o destino
