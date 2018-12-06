@@ -1,34 +1,57 @@
-	TRABAJO FINAL PROGRAMACI�N IMPERATIVA
+﻿╔═══════════════════════════════════════════════════════════════╗
+║		TRABAJO FINAL PROGRAMACIÓN IMPERATIVA		║
+║								║
+║	Integrantes:						║
+║		*Lucía Torrusio		Legajo: 59489		║
+║		*Tamara Puig		Legajo: 59820		║
+║		*Nicolás Comerci	Legajo: 59520		║
+╚═══════════════════════════════════════════════════════════════╝
 
-Integrantes:
-		Luc�a Torrusio	Legajo: 59489
-		Tamara Puig	Legajo: 59820
-		Nicol�s Comerci	Legajo: 59520
+>> Generar ejecutable:
 
-Generar ejecutable:
+1- Una vez posicionado en el directorio en el que se encuentran los archivos fuente y de encabezado entregados utilizar el siguiente comando para generar el ejecutable "censo":
 
-1- Una vez posicionado en el directorio en el que se encuentran los archivos  fuente y de encabezado entregados utilizar el siguiente comando para generar el ejecutable "censo":
-
-   $> gcc main.c getnum.c TAD.c -o censo -pedantic -std=c99 -Wall -fsanitize=address
-
-Modo de uso:
-
-1- Para invocar el programa:
-	$> censo (path del archivo de aeropuertos) (path del archivo de movimientos)
- donde los dos �ltimos archivos son los utilizados por el progrma para hacer el censo.
+   $> make
 
 
-2-Aparecer�n 5 opciones en pantalla:
+>> Ejecutar el programa:
 
-	1) Movimientos por aeropuerto: esta opci�n crea un archivo "movimientos_aeropuerto.csv" donde cada l�nea contiene separados por ; el c�digo OACI, la denominaci�n y la cantidad de movimientos del aeropuerto.
+1- Ejecutar el siguiente comando en consola:
 
-	2) Movimientos por d�a de la semana: esta opci�n crea un archivo "dia_semana.csv" donde cada l�nea contiene separados por ";" el d�a de la semana, la cantidad de movimientos de cabotaje para ese d�a, la cantidad de movimientos internacionales para ese d�a y la suma de ambos movimientos.
+   $> ./censo *file1* *file2*
 
-	3) Composici�n de Movimientos: esta opci�n crea un archivo "composicion.csv" donde cada l�nea de la salida contenga separados por ";" el total de movimientos por Clasificaci�n de Vuelo y por Clase de Vuelo.
+Donde *file1* y *file2* representan el PATH de los archivos .csv de los cuales serán extraídos los datos.
 
-	4) Realizar todo lo anterior: como lo indica el nombre, esta opci�n genera tres archivos "movimientos_aeropuerto.csv", "dia_semana.csv" y "composicion.csv" con lo anterior dicho.
+Ejemplo de ejecución asumiendo que los archivos se llaman "aeropuertos.csv", "movimientos.csv" y ambos están ubicados en el home:
+	
+   $> ./censo $HOME/aeropuertos.csv $HOME/movimientos.csv
 
-	5) Salir: Una vez terminado el uso del programa esta opci�n termina la ejecuci�n del mismo.
 
-    Para seleccionarlas simplemente tiene que ingresar el n�mero de la opci�n que quiera utilizar. Todos los archivos .csv creados estar�n localizados en el mmismo directorio que el del ejecutable. 
+>> Errores:
+
+1- "ERROR: Two arguments expected.": la cantidad de argumentos al momento de ejecutar el programa es incorrecta.
+
+2- "ERROR: No such file or directory.": algún PATH ingresado como argumento es incorrecto.
+
+3- "ERROR: Wrong file.": alguno de los archivos ingresados como argumentos no cumple con el formato esperado.
+
+4- "ERROR: Out of memory.": la memoria disponible para ejecutar el programa es insuficiente.
+
+
+>> Modo de uso:
+
+1- Una vez ejecutado correctamente el programa aparecerán 5 opciones en pantalla:
+
+	1) Movimientos por aeropuerto: esta opción crea un archivo "movimientos_aeropuerto.csv" donde cada línea contiene separados por ";" el código OACI, la denominación y la cantidad de movimientos del aeropuerto.
+
+	2) Movimientos por día de la semana: esta opción crea un archivo "dia_semana.csv" donde cada línea contiene separados por ";" el día de la semana, la cantidad de movimientos de cabotaje para ese día, la cantidad de movimientos internacionales para ese día y la suma de ambos movimientos.
+
+	3) Composición de Movimientos: esta opción crea un archivo "composicion.csv" donde cada línea de la salida contiene separados por ";" el total de movimientos por Clasificación de Vuelo y por Clase de Vuelo.
+
+	4) Realizar todo lo anterior: como lo indica el nombre, esta opción genera los tres archivos mencionados arriba y finaliza la ejecución del programa.
+
+	5) Salir: finaliza la ejecución del programa.
+
+Para seleccionarlas simplemente tiene que ingresar el número de la opción que quiera utilizar. 
+Todos los archivos .csv creados estarán localizados en el mismo directorio del ejecutable.
     
