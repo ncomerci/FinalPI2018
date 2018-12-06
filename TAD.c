@@ -1,9 +1,12 @@
 #include "header.h"
 
-#define OACILEN 4 //maxima longitud del OACI
-
 enum DAYS {SUN = 0, MON, TUE, WED, THU, FRI, SAT};
 enum FLIGHTTYPE {CAB = 0, INTER};
+
+//directorios a guardar los archivos correspondientes
+#define MBADIR "./movimientos_aeropuerto.csv"
+#define MBDDIR "./dia_semana.csv"
+#define CMDIR "./composicion.csv"
 
 typedef struct Tmove
 {
@@ -21,17 +24,16 @@ typedef struct Tcomp
 
 typedef struct Tnode
 {
-	char oaci[OACILEN+1];
+	struct Tnode * prev;
+	char oaci[5];
+	char * denom;
 	size_t total;
 	struct Tnode * next;
-	struct Tnode * prev;
-	char * denom;
 }Tnode;
 
 typedef struct dataCDT
 {
 	struct Tnode * first;
-	struct Tnode * last;
 	struct Tmove movDays[7];
 	struct Tcomp movComp[2];
 
@@ -123,20 +125,16 @@ void addAirport(dataADT head, const char * s1, const char * s2){
 
 	strcpy(aux->denom, s2);
 
-	if(head->last != NULL)
+	if(head->first != NULL)
 	{
-		aux->prev = head->last;
-		head->last->next = aux;
+		head->first->prev = aux;
+		aux->next = head->first;
 	}
 
-	head->last = aux;
-	
-	if(head->first == NULL)
-		head->first=head->last;
-
+	head->first = aux;
 }
 
-static Pnode addCantR(Pnode n, const char * s1, dataADT head)
+static Pnode addCantR(Pnode n, const char * s1)
 {
 	if(n == NULL){
 		return n;
@@ -144,15 +142,13 @@ static Pnode addCantR(Pnode n, const char * s1, dataADT head)
 
 	if(strcmp(s1, n->oaci) != 0)
 	{	
-		n->next = addCantR(n->next, s1, head);
+		n->next = addCantR(n->next, s1);
 		int c;		
 		Pnode aux = n->next;
 		
 		if(aux != NULL && (((c = aux->total - n->total) > 0) || (c == 0 && strcmp(aux->oaci, n->oaci) < 0)))
 		{
-			if(aux->next == NULL)
-				head->last = n;
-			
+
 			aux->prev = n->prev;
 			n->next = aux->next;
 			n->prev = aux;
@@ -171,13 +167,13 @@ static Pnode addCantR(Pnode n, const char * s1, dataADT head)
 
 void addCant(dataADT head, const char * s1)
 {
-	head->first = addCantR(head->first,s1,head);
+	head->first = addCantR(head->first, s1);
 }
 
 //en string recibe orgien o destino
 void addMove(const char *string, dataADT info){
 
-	char s[OACILEN+1];
+	char s[5];
 
 	if(sscanf(string, "SA%2[0-9]",s) != 1 && sscanf(string, "AR-%[0-9]",s) != 1)
 		addCant(info, string);
@@ -185,11 +181,11 @@ void addMove(const char *string, dataADT info){
 }
 
 //solo recibe origen o destino
-void getOriDest(FILE *moves, dataADT info, char *origen){
+static void getOriDest(FILE *moves, dataADT info, char *origen){
 
 	int i, c, flag = 0;
 
-	for(i = 0 ; i < OACILEN && !flag ; i++)
+	for(i = 0 ; i < 4 && !flag ; i++)
 	{
 		origen[i] = fgetc(moves);
 
@@ -209,7 +205,7 @@ void getOriDest(FILE *moves, dataADT info, char *origen){
 
 void getData(dataADT info, FILE *airports, FILE *moves){
 
-	char oaci[OACILEN+1], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], origen[OACILEN+1], destino[OACILEN+1];
+	char oaci[5], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], tipoMov[2], origen[5], destino[5];
 
 	fscanf(airports, "%*[^\n]\n");
 
@@ -225,10 +221,16 @@ void getData(dataADT info, FILE *airports, FILE *moves){
 
 	while(feof(moves) == 0)
 	{
-		fscanf(moves, "%10s;%*[^;];%1s%*[^;];%1s%*[^;];%*[^;];", fecha, claseVuelo, clasifVuelo);
+		fscanf(moves, "%10[^;];%*[^;];%1s%*[^;];%1s%*[^;];%1s%*[^;];", fecha, claseVuelo, clasifVuelo, tipoMov);
 
-		getOriDest(moves, info, origen);
-		getOriDest(moves, info, destino);
+		if(tipoMov[0] == 'D')
+			getOriDest(moves, info, origen);
+		else
+		{
+			fscanf(moves, "%*[^;];");
+			getOriDest(moves, info, destino);
+		}
+
 		fscanf(moves, "%*[^\n]\n");
 
 		MoveByDay(info, fecha, clasifVuelo);
@@ -248,9 +250,7 @@ static void printMBARec(Pnode node, FILE *fp){
 
 char * printMovesbyAirports(dataADT l){
 
-	char *filedir = "./movimientos_aeropuerto.csv";
-
-	FILE *fp = fopen(filedir, "wt");
+	FILE *fp = fopen(MBADIR, "wt");
 
 	fprintf(fp, "%s;%s;%s\n", "OACI", "Denominación", "Movimientos");
 
@@ -258,14 +258,12 @@ char * printMovesbyAirports(dataADT l){
 
 	fclose(fp);
 
-	return filedir;
+	return MBADIR;
 }
 
 char * printMovesbyDay(dataADT l){
 
-	char *filedir = "./dia_semana.csv";
-
-	FILE *fp = fopen(filedir, "wt");
+	FILE *fp = fopen(MBDDIR, "wt");
 
 	char *days[] = {"Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
 
@@ -278,14 +276,12 @@ char * printMovesbyDay(dataADT l){
 
 	fclose(fp);
 
-	return filedir;
+	return MBDDIR;
 }
 
 char * printCompMoves(dataADT l){
 
-	char *filedir = "./composicion.csv";
-
-	FILE *fp = fopen(filedir, "wt");
+	FILE *fp = fopen(CMDIR, "wt");
 
 	int i;
 
@@ -298,7 +294,7 @@ char * printCompMoves(dataADT l){
 
 	fclose(fp);
 
-	return filedir;
+	return CMDIR;
 }
 
 void freeList(dataADT data){

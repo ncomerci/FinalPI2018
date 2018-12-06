@@ -42,8 +42,6 @@
 
 	void getData(dataADT info, FILE *airports, FILE *moves);
 
-	void getOriDest(FILE *moves, dataADT info, char *origen);
-
 	char * printMovesbyDay(dataADT l);
 
 	char * printCompMoves(dataADT l);

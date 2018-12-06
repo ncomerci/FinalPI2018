@@ -1,6 +1,6 @@
 #include "header.h"
 
-#define OPTIONS 3
+#define OPTIONS 3 //cantidad de opciones con funciones propias para relizar queries
 
 typedef struct itemMenu {
 
@@ -9,15 +9,7 @@ typedef struct itemMenu {
 
 }itemMenu;
 
-typedef struct tMenu {
-
-	int totalOptions;
-	itemMenu *items;
-	
-}tMenu;
-
 static itemMenu items[OPTIONS] = {{"Movimientos por aeropuerto", printMovesbyAirports}, {"Movimientos por día de la semana", printMovesbyDay}, {"Composición de Movimientos", printCompMoves}};
-static tMenu ppalMenu = {OPTIONS, items};
 
 int checkFiles(FILE *moves, FILE *airports);
 void Menu(dataADT info, FILE *moves, FILE *airports);
@@ -70,16 +62,15 @@ main(int cantArgs, char *args[]){
 
 int checkFiles(FILE *moves, FILE *airports){
 
-	char date[6], class[15], classif[20], origin[12], destiny[13], oaci[5], denom[13];
-	int f1, f2;
-
-	f1 = fscanf(moves, "%5[^;];%*[^;];%14[^;];%19[^;];%*[^;];%11[^;];%12[^;]", date, class, classif, origin, destiny);
-	f2 = fscanf(airports, "%*[^;];%4[^;];%*[^;];%*[^;];%12[^;]", oaci, denom);
+	char fecha[6], local[6];
+	
+	fscanf(moves, "%5[^;];", fecha);
+	fscanf(airports, "%5[^;];", local);
 	
 	fseek(moves, 0, SEEK_SET);
 	fseek(airports, 0, SEEK_SET);
 
-	if(f1 == 5 && f2 == 2)
+	if(strcmp(fecha, "Fecha") == 0 && strcmp(local, "local") == 0)
 		return 1;
 
 	return 0;
@@ -95,16 +86,16 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 		{
 			printf("\nESCOJA UNA OPCIÓN:\n\n");
 
-			for(i=0 ; i < ppalMenu.totalOptions ; i++)
-				printf("%d) %s\n", i+1, ppalMenu.items[i].messege);
+			for(i=0 ; i < OPTIONS ; i++)
+				printf("%d) %s\n", i+1, items[i].messege);
 
 			printf("%d) Realizar todo lo anterior\n%d) Salir\n", i+1, i+2);
 
 			opt = getint("\n");
 		}
-		while(opt < 1 || opt > ppalMenu.totalOptions+2);
+		while(opt < 1 || opt > OPTIONS+2);
 
-		if(opt == ppalMenu.totalOptions+2)			
+		if(opt == OPTIONS+2)			
 			return;
 
 		if( !load )
@@ -114,16 +105,16 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 			load = 1;
 		}
 
-		if(opt == ppalMenu.totalOptions+1)
+		if(opt == OPTIONS+1)
 		{
-			for(i = 0 ; i < ppalMenu.totalOptions ; i++)
-				printf("%s creado.\n", ppalMenu.items[i].fn (info));
+			for(i = 0 ; i < OPTIONS ; i++)
+				printf("%s creado.\n", items[i].fn (info));
 		}
 		else
 		{
-			printf("%s created.\n", ppalMenu.items[opt-1].fn (info));
+			printf("%s creado.\n", items[opt-1].fn (info));
 			resp = yesNo("Desea realizar otra acción? (S/N)\n");
 		}
 	}
-	while(opt != ppalMenu.totalOptions+1 && resp);
+	while(opt != OPTIONS+1 && resp);
 }
