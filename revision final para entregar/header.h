@@ -33,7 +33,7 @@
 	void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
-
+  
 	void addAirport(dataADT head, const char * s1, const char * s2);
 
 	void addCant(dataADT head, const char * s1);

@@ -91,7 +91,8 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 
 			printf("%d) Realizar todo lo anterior\n%d) Salir\n", i+1, i+2);
 
-			opt = getint("\n");
+			opt = getchar() - '0';
+			putchar("\n");
 		}
 		while(opt < 1 || opt > OPTIONS+2);
 
