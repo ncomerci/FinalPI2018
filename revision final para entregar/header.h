@@ -8,13 +8,7 @@
 
 	#include <stdlib.h>
 
-	#include <ctype.h>
-
-	#include <math.h>
-
 	#include <string.h>
-
-	#include <time.h>
 
 	#include <errno.h>
 
@@ -75,7 +69,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
  */
   
 
-	void addAirport(dataADT head, const char * s1, const char * s2);
+	void addAirport(dataADT head, const char * oaci, const char * denom);
 
 
 	/* Funcion:  		addCant
@@ -93,7 +87,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
  */
   
 
-	void addCant(dataADT head, const char * s1);
+	void addCant(dataADT head, const char * oaci);
 
 
 	void addMove(const char *string, dataADT info);

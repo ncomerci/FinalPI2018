@@ -41,6 +41,11 @@ typedef struct dataCDT
 
 typedef Tnode * Pnode;
 
+dataADT new(){
+
+	return calloc(1,sizeof(dataCDT));
+}
+
 /*dice que dia de la semana es una fecha.
 el formato de la fecha es dd/mm/yyyy
 algoritmo de sakamoto*/
@@ -54,11 +59,6 @@ static int dayWeek(const char *date){
    	year -= month < 3;
    
    	return (year + year/4 - year/100 + year/400 + t[month-1] + day) % 7;
-}
-
-dataADT new(){
-
-	return calloc(1,sizeof(dataCDT));
 }
 
 void MoveByDay(dataADT l, const char *date, const char *flightType){
@@ -123,7 +123,7 @@ void addAirport(dataADT head, const char * oaci, const char * denom){
 	if(errno != 0)
 		error(errno, strerror(errno));
 
-	strcpy(aux->denom, demon);
+	strcpy(aux->denom, denom);
 
 	if(head->first != NULL)
 	{
