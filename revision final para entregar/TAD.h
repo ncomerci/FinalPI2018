@@ -65,8 +65,8 @@
 	/* Funcion:  		composition
 
  * Parámetros:
- *				ClasificVuelo: Clasificación de vuelo (Cabotaje, Internacional o N/A).
- *				clasVuelo: Clase de vuelo (Regular, No regular o Vuelo privado).
+ *				flightType: Clasificación de vuelo (Cabotaje, Internacional o N/A).
+ *				flightClass: Clase de vuelo (Regular, No regular o Vuelo privado).
  *				l: Lista utilizada.
 
  * -------------------------------------------------------------------
@@ -84,7 +84,7 @@
 
  */
 
-	void composition(const char * ClasificVuelo, const char * clasVuelo, dataADT l);
+	void composition(const char * flightType, const char * flightClass, dataADT l);
 
 
 
