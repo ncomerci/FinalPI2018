@@ -1,4 +1,4 @@
-#include "header.h"
+#include "TAD.h"
 
 enum DAYS {SUN = 0, MON, TUE, WED, THU, FRI, SAT};
 enum FLIGHTTYPE {CAB = 0, INTER};
@@ -109,21 +109,21 @@ void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data)
 }
 
 /*Q1*/
-void addAirport(dataADT head, const char * oaci, const char * denom){
+void addAirport(dataADT head, const char * s1, const char * s2){
 
 	Pnode aux = calloc(1, sizeof(Tnode));
 
 	if(errno != 0)
 		error(errno, strerror(errno));
 
-	strcpy(aux->oaci, oaci);
+	strcpy(aux->oaci, s1);
 
-	aux->denom = malloc(strlen(denom) + 1);
+	aux->denom = malloc(strlen(s2) + 1);
 
 	if(errno != 0)
 		error(errno, strerror(errno));
 
-	strcpy(aux->denom, demon);
+	strcpy(aux->denom, s2);
 
 	if(head->first != NULL)
 	{
@@ -134,15 +134,15 @@ void addAirport(dataADT head, const char * oaci, const char * denom){
 	head->first = aux;
 }
 
-static Pnode addCantR(Pnode n, const char * oaci)
+static Pnode addCantR(Pnode n, const char * s1)
 {
 	if(n == NULL){
 		return n;
 	}
 
-	if(strcmp(oaci, n->oaci) != 0)
+	if(strcmp(s1, n->oaci) != 0)
 	{	
-		n->next = addCantR(n->next, oaci);
+		n->next = addCantR(n->next, s1);
 		int c;		
 		Pnode aux = n->next;
 		
@@ -165,9 +165,9 @@ static Pnode addCantR(Pnode n, const char * oaci)
 	return n;
 }
 
-void addCant(dataADT head, const char * oaci)
+void addCant(dataADT head, const char * s1)
 {
-	head->first = addCantR(head->first, oaci);
+	head->first = addCantR(head->first, s1);
 }
 
 //en string recibe orgien o destino
