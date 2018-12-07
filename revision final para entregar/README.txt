@@ -9,7 +9,7 @@
 
 >> Generar ejecutable:
 
-1- Una vez posicionado en el directorio en el que se encuentran los archivos fuente y de encabezado entregados utilizar el siguiente comando para generar el ejecutable "censo":
+1- Una vez posicionado en el directorio en el que se encuentran los archivos fuente y de encabezado entregados utilizar el siguiente comando para generar el ejecutable "TPFinalGrupo4":
 
    $> make
 
@@ -18,13 +18,13 @@
 
 1- Ejecutar el siguiente comando en consola:
 
-   $> ./censo *file1* *file2*
+   $> ./TPFinalGrupo4 *file1* *file2*
 
 Donde *file1* y *file2* representan el PATH de los archivos .csv de los cuales serán extraídos los datos.
 
 Ejemplo de ejecución asumiendo que los archivos se llaman "aeropuertos.csv", "movimientos.csv" y ambos están ubicados en el home:
 	
-   $> ./censo $HOME/aeropuertos.csv $HOME/movimientos.csv
+   $> ./TPFinalGrupo4 $HOME/aeropuertos.csv $HOME/movimientos.csv
 
 
 >> Errores:

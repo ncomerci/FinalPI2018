@@ -1,5 +1,5 @@
 COMPILER=gcc
-OUTPUT_FILE=final.out
+OUTPUT_FILE=TPFinalGrupo4
 
 all: compile
 	rm -r *.o *.h.gch
