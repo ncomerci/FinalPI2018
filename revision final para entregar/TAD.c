@@ -212,7 +212,7 @@ void getData(dataADT l, FILE *airports, FILE *moves){
 	{
 		fscanf(moves, "%10[^;];%*[^;];%1s%*[^;];%1s%*[^;];%1s%*[^;];", fecha, claseVuelo, clasifVuelo, tipoMov);
 
-		if(tipoMov[0] == 'D') //checkea si el tipo de movimiento es un despegue o aterrizaje
+		if(tipoMov[0] == 'D') //chequea si el tipo de movimiento es un despegue o aterrizaje
 			getOriDest(moves, l, origen);
 		else
 		{
