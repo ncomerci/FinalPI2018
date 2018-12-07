@@ -8,7 +8,13 @@
 
 	#include <stdlib.h>
 
+	#include <ctype.h>
+
+	#include <math.h>
+
 	#include <string.h>
+
+	#include <time.h>
 
 	#include <errno.h>
 
@@ -21,13 +27,16 @@
 	}
 
 	dataADT new(void);
-
+//Recibe la lista del censo de los aeropuertos, la fecha del movimiento y el tipo de vuelo realizado en esa fecha,y agrega un movimiento al correspondiente tipo de vuelo a la lista dada.
 	void MoveByDay(dataADT l, const char *date, const char *flightType);
 
+//Recibe la clasificacion del vuelo, la clase de vuelo, y el header de la lista del censo de los aeropuertos. Agrega a la lista dada un movimiento a la combinacion "clasificacion de Vuelo - clase vuelo" correspondiente.
 	void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
   
+ //Agrega a la lista un aeropuerto, donde tiene el oaci y su denominación.
 	void addAirport(dataADT head, const char * s1, const char * s2);
 
+//Agrega al aeropuerto
 	void addCant(dataADT head, const char * s1);
 
 	void addMove(const char *string, dataADT info);

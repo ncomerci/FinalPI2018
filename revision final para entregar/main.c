@@ -1,5 +1,4 @@
-#include "TAD.h"
-#include "validaciones.h"
+#include "header.h"
 
 #define OPTIONS 3 //cantidad de opciones con funciones propias para relizar queries
 
@@ -12,6 +11,7 @@ typedef struct itemMenu {
 
 static itemMenu items[OPTIONS] = {{"Movimientos por aeropuerto", printMovesbyAirports}, {"Movimientos por día de la semana", printMovesbyDay}, {"Composición de Movimientos", printCompMoves}};
 
+int checkFiles(FILE *moves, FILE *airports);
 void Menu(dataADT info, FILE *moves, FILE *airports);
 
 int
@@ -60,6 +60,22 @@ main(int cantArgs, char *args[]){
 	return 0;
 }
 
+int checkFiles(FILE *moves, FILE *airports){
+
+	char fecha[6], local[6];
+	
+	fscanf(moves, "%5[^;];", fecha);
+	fscanf(airports, "%5[^;];", local);
+	
+	fseek(moves, 0, SEEK_SET);
+	fseek(airports, 0, SEEK_SET);
+
+	if(strcmp(fecha, "Fecha") == 0 && strcmp(local, "local") == 0)
+		return 1;
+
+	return 0;
+}
+
 void Menu(dataADT info, FILE *moves, FILE *airports){
 
 	int i, opt, resp, load = 0;
@@ -73,9 +89,10 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 			for(i=0 ; i < OPTIONS ; i++)
 				printf("%d) %s\n", i+1, items[i].messege);
 
-			printf("%d) Realizar todo lo anterior\n%d) Salir\n\n", i+1, i+2);
+			printf("%d) Realizar todo lo anterior\n%d) Salir\n", i+1, i+2);
 
-			opt = getOption();
+			opt = getchar() - '0';
+			putchar("\n");
 		}
 		while(opt < 1 || opt > OPTIONS+2);
 
@@ -84,7 +101,7 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 
 		if( !load )
 		{
-			printf("\nCargando...\n\n");
+			printf("Cargando...\n");
 			getData(info, airports, moves);
 			load = 1;
 		}
@@ -93,13 +110,11 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 		{
 			for(i = 0 ; i < OPTIONS ; i++)
 				printf("%s creado.\n", items[i].fn (info));
-
-			putchar('\n');
 		}
 		else
 		{
 			printf("%s creado.\n", items[opt-1].fn (info));
-			resp = Confirmation("\nDesea realizar otra acción? (S/N)\n");
+			resp = yesNo("Desea realizar otra acción? (S/N)\n");
 		}
 	}
 	while(opt != OPTIONS+1 && resp);
