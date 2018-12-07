@@ -1,4 +1,4 @@
-#include "header.h"
+#include "TAD.h"
 #include "validaciones.h"
 
 #define OPTIONS 3 //cantidad de opciones con funciones propias para relizar queries
@@ -6,12 +6,16 @@
 typedef struct itemMenu {
 
 	char *messege;
-	char * (*fn) (dataADT l);
+	char *fileDir;
+	void (*fn) (const char *dir, dataADT l);
 
 }itemMenu;
 
-static itemMenu items[OPTIONS] = {{"Movimientos por aeropuerto", printMovesbyAirports}, {"Movimientos por día de la semana", printMovesbyDay}, {"Composición de Movimientos", printCompMoves}};
+//Items del Menú
+static itemMenu items[OPTIONS] = {{"Movimientos por aeropuerto", "./movimientos_aeropuerto.csv", printMovesbyAirports}, {"Movimientos por día de la semana", "./dia_semana.csv", printMovesbyDay}, {"Composición de Movimientos", "./composicion.csv", printCompMoves}};
 
+/*Recibe una lista y los punteros a los archivos de aeropuertos y movimientos. 
+**Imprime en pantalla un menú interactivo para realizar las diferentes tareas.*/
 void Menu(dataADT info, FILE *moves, FILE *airports);
 
 int
@@ -28,7 +32,7 @@ main(int cantArgs, char *args[]){
 
 	FILE *moves;
 	FILE *airports;
-//se fija cuál es el archivo de movimientos y cual el de aeropuertos.
+
 	if(checkFiles(file1, file2))
 	{
 		moves = file1;
@@ -92,13 +96,18 @@ void Menu(dataADT info, FILE *moves, FILE *airports){
 		if(opt == OPTIONS+1)
 		{
 			for(i = 0 ; i < OPTIONS ; i++)
-				printf("%s creado.\n", items[i].fn (info));
+			{
+				items[i].fn (items[i].fileDir, info);
+				printf("%s creado.\n", items[i].fileDir);
+			}
 
 			putchar('\n');
 		}
 		else
 		{
-			printf("%s creado.\n", items[opt-1].fn (info));
+			items[opt-1].fn (items[opt-1].fileDir, info);
+			printf("%s creado.\n", items[opt-1].fileDir);
+
 			resp = Confirmation("\nDesea realizar otra acción? (S/N)\n");
 		}
 	}
