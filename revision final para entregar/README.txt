@@ -1,10 +1,10 @@
 ﻿╔═══════════════════════════════════════════════════════════════╗
-║		TRABAJO FINAL PROGRAMACIÓN IMPERATIVA 		                                ║
-║								                                ║
-║	Integrantes:							                                ║
-║		*Lucía Torrusio		Legajo: 59489		                                ║
-║		*Tamara Puig		Legajo: 59820		                                ║
-║		*Nicolás Comerci		Legajo: 59520		                                ║
+║		TRABAJO FINAL PROGRAMACIÓN IMPERATIVA 	        ║
+║							        ║
+║	Integrantes:					        ║
+║		*Lucía Torrusio		Legajo: 59489	        ║
+║		*Tamara Puig		Legajo: 59820	        ║
+║		*Nicolás Comerci	Legajo: 59520		║
 ╚═══════════════════════════════════════════════════════════════╝
 
 >> Generar ejecutable:
