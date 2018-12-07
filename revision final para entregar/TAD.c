@@ -73,16 +73,16 @@ void MoveByDay(dataADT l, const char *date, const char *flightType){
 }
 
 
-void composition(const char * ClasificVuelo, const char * clasVuelo, dataADT l){
+void composition(const char * flightClasific, const char * flightType, dataADT l){
 
-	if(ClasificVuelo[0] != 'N') //chequea que la clasif no sea N/A
+	if(flightClasific[0] != 'N') //chequea que la clasif no sea N/A
 	{
-		if(ClasificVuelo[0] == 'C') //si el vuelo es de Cabotaje
+		if(flightClasific[0] == 'C') //si el vuelo es de Cabotaje
 		{
-			if (clasVuelo[0] == 'R') //si es Regular
+			if (flightType[0] == 'R') //si es Regular
 				l->movComp[CAB].Reg++;
 
-			else if (clasVuelo[0] == 'N') //si es No Regular
+			else if (flightType[0] == 'N') //si es No Regular
 				l->movComp[CAB].noReg++;
 
 			else //Vuelo Privado
@@ -90,10 +90,10 @@ void composition(const char * ClasificVuelo, const char * clasVuelo, dataADT l){
 		}
 		else
 		{
-			if (clasVuelo[0] == 'R')
+			if (flightType[0] == 'R')
 				l->movComp[INTER].Reg++;
 
-			else if (clasVuelo[0] == 'N')
+			else if (flightType[0] == 'N')
 				l->movComp[INTER].noReg++;
 			
 			else
