@@ -102,7 +102,7 @@ void composition(const char * ClasificVuelo, const char * clasVuelo, dataADT l){
 	}
 }
 
-void addAirport(dataADT head, const char * oaci, const char * denom){
+void addAirport(dataADT l, const char * oaci, const char * denom){
 
 	Pnode aux = calloc(1, sizeof(Tnode));
 
@@ -118,13 +118,13 @@ void addAirport(dataADT head, const char * oaci, const char * denom){
 
 	strcpy(aux->denom, denom);
 
-	if(head->first != NULL)
+	if(l->first != NULL)
 	{
-		head->first->prev = aux;
-		aux->next = head->first;
+		l->first->prev = aux;
+		aux->next = l->first;
 	}
 
-	head->first = aux;
+	l->first = aux;
 }
 
 
