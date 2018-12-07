@@ -281,9 +281,9 @@ void printCompMoves(const char *dir, dataADT l){
 
 }
 
-void freeList(dataADT data){
+void freeList(dataADT l){
 
-	Pnode curr=data->first;
+	Pnode curr=l->first;
 	Pnode aux;
 
 	while (curr != NULL) {
@@ -293,5 +293,5 @@ void freeList(dataADT data){
 		curr = aux;
 	}
 
-	free(data);
+	free(l);
 }
