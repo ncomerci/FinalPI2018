@@ -8,13 +8,7 @@
 
 	#include <stdlib.h>
 
-	#include <ctype.h>
-
-	#include <math.h>
-
 	#include <string.h>
-
-	#include <time.h>
 
 	#include <errno.h>
 
@@ -34,10 +28,10 @@
 	void agregamov(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
   
  //Agrega a la lista un aeropuerto, donde tiene el oaci y su denominación.
-	void addAirport(dataADT head, const char * s1, const char * s2);
+	void addAirport(dataADT head, const char * oaci, const char * denom);
 
 //Agrega al aeropuerto
-	void addCant(dataADT head, const char * s1);
+	void addCant(dataADT head, const char * oaci);
 
 	void addMove(const char *string, dataADT info);
 
