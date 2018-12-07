@@ -159,18 +159,18 @@ static Pnode addCantR(Pnode n, const char * oaci)
 	return n;
 }
 
-void addCant(dataADT head, const char * oaci){
+void addCant(dataADT l, const char * oaci){
 
 	char s[5];
 
 	if(sscanf(oaci, "SA%2[0-9]",s) != 1 && sscanf(oaci, "AR-%[0-9]",s) != 1)
-		head->first = addCantR(head->first, oaci);
+		l->first = addCantR(l->first, oaci);
 }
 
 
 /*Obtiene la información relevante de los campos Origen o Destino del archivo
 de Movimientos*/
-static void getOriDest(FILE *moves, dataADT info, char *origen){
+static void getOriDest(FILE *moves, dataADT l, char *origen){
 
 	int i, c, flag = 0;
 
@@ -185,14 +185,14 @@ static void getOriDest(FILE *moves, dataADT info, char *origen){
 	origen[i] = '\0';
 
 	if(!flag && (c = fgetc(moves)) == ';')
-		addCant(info, origen);
+		addCant(l, origen);
 
 	else if(!flag && c != ';')
 		fscanf(moves, "%*[^;];");
 
 }
 
-void getData(dataADT info, FILE *airports, FILE *moves){
+void getData(dataADT l, FILE *airports, FILE *moves){
 
 	char oaci[5], denom[71], fecha[11], claseVuelo[2], clasifVuelo[2], tipoMov[2], origen[5], destino[5];
 
@@ -203,7 +203,7 @@ void getData(dataADT info, FILE *airports, FILE *moves){
 		fscanf(airports, "%*[^;];%[^;];%*[^;];%*[^;];%[^;];%*[^\n]\n", oaci, denom);
 
 		if(strcmp(oaci, " ") != 0)
-			addAirport(info, oaci, denom);
+			addAirport(l, oaci, denom);
 	}
 
 	fscanf(moves, "%*[^\n]\n");
@@ -213,17 +213,17 @@ void getData(dataADT info, FILE *airports, FILE *moves){
 		fscanf(moves, "%10[^;];%*[^;];%1s%*[^;];%1s%*[^;];%1s%*[^;];", fecha, claseVuelo, clasifVuelo, tipoMov);
 
 		if(tipoMov[0] == 'D') //checkea si el tipo de movimiento es un despegue o aterrizaje
-			getOriDest(moves, info, origen);
+			getOriDest(moves, l, origen);
 		else
 		{
 			fscanf(moves, "%*[^;];");
-			getOriDest(moves, info, destino);
+			getOriDest(moves, l, destino);
 		}
 
 		fscanf(moves, "%*[^\n]\n");
 
-		MoveByDay(info, fecha, clasifVuelo);
-		composition(clasifVuelo, claseVuelo, info);
+		MoveByDay(l, fecha, clasifVuelo);
+		composition(clasifVuelo, claseVuelo, l);
 	}
 }
 
