@@ -20,7 +20,21 @@
 		exit(errorCode);
 	}
 
+		/* Funcion:  		new
+
+ * Uso:  	        head=new();
+
+ * -------------------------------------------------------------------
+
+ * Descripción: 	
+ *				Crea un nuevo header.
+
+ * -------------------------------------------------------------------
+
+ */
 	dataADT new(void);
+	
+
 	/* Funcion:  		MoveByDay
 
  * Uso:  	        MoveByDay(head, "11/12/2018","cabotaje");
@@ -58,7 +72,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	/* Funcion:  		addAirport
 
- * Uso:  	        void addAirport(head, "SAZS", "aeropuerto ezeiza");
+ * Uso:  	        addAirport(head, "SAZS", "aeropuerto ezeiza");
 
  * -------------------------------------------------------------------
 
@@ -74,7 +88,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	/* Funcion:  		addCant
 
- * Uso:  	        void addCant(head, "SAZA");
+ * Uso:  	         addCant(head, "SAZA");
 
  * -------------------------------------------------------------------
 
@@ -85,26 +99,42 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
  * -------------------------------------------------------------------
  */
-  
-
-	void addCant(dataADT head, const char * oaci);
+  		void addCant(dataADT head, const char * oaci);
 
 
+
+/* Funcion:  		addMove
+
+ * Uso:  	        addMove(string,info);
+
+ * -------------------------------------------------------------------
+
+ * Descripción: 	
+ *				Corrobora los datos antes de llamar a la función
+ *				addCant y pasarle los datos necesarios para su ejecución,
+ *				controlando si se trata de un despeje o aterrizaje y
+ *				agregando al aeropuerto correspondiente según su oaci un
+ *				movimiento.
+
+ * -------------------------------------------------------------------
+
+ */
+	
 	void addMove(const char *string, dataADT info);
 
 	
 	
 
-	/* Funcion:  		addCant
+	/* Funcion:  		getData
 
- * Uso:  	        void addCant(head, "SAZA");
+ * Uso:  	        getData(info,airports, moves);
+
 
  * -------------------------------------------------------------------
 
- * Descripción: 	
- *				 Agrega al aeropuerto correspondiente según su oaci, 
- *				un movimiento realizado. Debe existir previamente el
- *				aeropuerto en el registro.
+ * Descripción: 
+ *				Obtiene la información relevante de los dos 
+ *				archivos recibidos.
 
  * -------------------------------------------------------------------
  */
@@ -115,7 +145,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	/* Funcion:  		printMovesbyDay
 
- * Uso:  	        char * printMovesbyDay(dataADT l);
+ * Uso:  	        s1=printMovesbyDay(dataADT l);
 
  * -------------------------------------------------------------------
 
@@ -134,7 +164,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	/* Funcion:  		printCompMoves
 
- * Uso:  	        char * printCompMoves(dataADT l);
+ * Uso:  	        s2=printCompMoves(dataADT l);
 
  * -------------------------------------------------------------------
 
@@ -153,7 +183,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	/* Funcion:  		printMovesbyAirports
 
- * Uso:  	        char * printMovesbyAirports(dataADT l);
+ * Uso:  	        s3=printMovesbyAirports(dataADT l);
 
  * -------------------------------------------------------------------
 
@@ -172,7 +202,7 @@ void MoveByDay(dataADT l, const char *date, const char *flightType);
 
 	/* Funcion:  		freeList
 
- * Uso:  	        void freeList(data);
+ * Uso:  	        freeList(data);
 
  * -------------------------------------------------------------------
 
