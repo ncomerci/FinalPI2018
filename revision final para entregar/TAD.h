@@ -67,11 +67,11 @@
  * Parámetros:
  *				ClasificVuelo: Clasificación de vuelo (Cabotaje, Internacional o N/A).
  *				clasVuelo: Clase de vuelo (Regular, No regular o Vuelo privado).
- *				data: Lista utilizada.
+ *				l: Lista utilizada.
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	        composition("cabotaje","Regular", data);
+ * Ejemplo:  	        composition("cabotaje","Regular", l);
 
  * -------------------------------------------------------------------
 
@@ -84,20 +84,20 @@
 
  */
 
-	void composition(const char * ClasificVuelo, const char * clasVuelo, dataADT data);
+	void composition(const char * ClasificVuelo, const char * clasVuelo, dataADT l);
 
 
 
 	/* Funcion:  		addAirport
 
  * Parámetros:
- *				head: Lista utilizada.
+ *				l: Lista utilizada.
  *				oaci: OACI del aeropuerto.
  *				denom: Denominación del aeropuerto.
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	        addAirport(head, "SAEZ", "EZEIZA/MINISTRO PISTARINI");
+ * Ejemplo:  	        addAirport(l, "SAEZ", "EZEIZA/MINISTRO PISTARINI");
 
  * -------------------------------------------------------------------
 
@@ -109,18 +109,18 @@
  */
   
 
-	void addAirport(dataADT head, const char * oaci, const char * denom);
+	void addAirport(dataADT l, const char * oaci, const char * denom);
 
 
 	/* Funcion:  		addCant
 
  * Parámetros:
- *				head: Lista utilizada.
+ *				l: Lista utilizada.
  *				oaci: OACI del aeropuerto.
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	         addCant(head, "SAZA");
+ * Ejemplo:  	         addCant(l, "SAZA");
 
  * -------------------------------------------------------------------
 
@@ -132,19 +132,19 @@
  * -------------------------------------------------------------------
  */
 
-	void addCant(dataADT head, const char * oaci);
+	void addCant(dataADT l, const char * oaci);
 
 
 	/* Funcion:  		getData
 
  * Parámetros:
- *				info: Lista utilizada.
+ *				l: Lista utilizada.
  *				airports: Archivo de aeropuertos.
  *				moves: Archivo de movimientos.
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	        getData(info, airports, moves);
+ * Ejemplo:  	        getData(l, airports, moves);
 
 
  * -------------------------------------------------------------------
@@ -155,7 +155,7 @@
 
  * -------------------------------------------------------------------
  */
-	void getData(dataADT info, FILE *airports, FILE *moves);
+	void getData(dataADT l, FILE *airports, FILE *moves);
 
 
 	
@@ -168,7 +168,7 @@
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	        printMovesbyDay("./dia_semana.csv", info);
+ * Ejemplo:  	        printMovesbyDay("./dia_semana.csv", l);
 
  * -------------------------------------------------------------------
 
@@ -193,7 +193,7 @@
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	        printCompMoves("./composicion.csv", info);
+ * Ejemplo:  	        printCompMoves("./composicion.csv", l);
 
  * -------------------------------------------------------------------
 
@@ -240,11 +240,11 @@
 	/* Funcion:  		freeList
 
  * Parámetros:
- *				data: Lista utilizada.
+ *				l: Lista utilizada.
 
  * -------------------------------------------------------------------
 
- * Ejemplo:  	        freeList(head);
+ * Ejemplo:  	        freeList(l);
 
  * -------------------------------------------------------------------
 
@@ -253,6 +253,6 @@
 
  * -------------------------------------------------------------------
  */
-	void freeList(dataADT data);
+	void freeList(dataADT l);
 
 #endif
